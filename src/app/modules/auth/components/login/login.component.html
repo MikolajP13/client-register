@@ -1,1 +1,36 @@
-<p>login works!</p>
+<div class="login-wrapper mt-3">
+  <h3>Log in</h3>
+  <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+    <div>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+      </mat-form-field>
+    </div>
+    @if ((loginForm.controls.username.touched || loginForm.controls.username.dirty) && loginForm.controls.username.invalid) {
+      <app-alert alertMessage="Username must have 4-30 characters" />
+    }
+    <div>
+      <mat-form-field>
+        <mat-label>Enter your password</mat-label>
+        <input matInput formControlName="password" [type]="hide() ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="onTogglePasswordField($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    @if ((loginForm.controls.password.touched || loginForm.controls.password.dirty) && loginForm.controls.password.invalid) {
+      <app-alert alertMessage="Password is required"/>
+    }
+    <div class="d-flex justify-content-end">
+      <button [disabled]="loginForm.invalid" type="submit" mat-raised-button>Log in</button>
+    </div>  
+  </form>
+</div>

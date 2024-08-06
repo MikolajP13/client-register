@@ -1,0 +1,8 @@
+{
+  "users": [
+    { "id": "1", "username": "Admin", "password": "pa$$word", "email": "admin@app.com" }
+  ],
+  "clients": [
+    { "id": "1", "firstname": "John", "lastname": "Doe", "email": "john.doe@app.com", "phone": "123123123", "addres": "Ohio", "postcode": "12-345"}
+  ]
+}

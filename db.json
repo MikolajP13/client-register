@@ -1,8 +1,123 @@
 {
   "users": [
-    { "id": "1", "username": "Admin", "password": "pa$$word", "email": "admin@app.com" }
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "123",
+      "email": "admin@app.com"
+    },
+    {
+      "email": "test@gmail.com",
+      "username": "Test001",
+      "password": "12345",
+      "id": "vSQEaH9"
+    },
+    {
+      "email": "test@test.com",
+      "username": "test",
+      "password": "123",
+      "id": "ZMQU-OY"
+    }
   ],
   "clients": [
-    { "id": "1", "firstname": "John", "lastname": "Doe", "email": "john.doe@app.com", "phone": "123123123", "addres": "Ohio", "postcode": "12-345"}
+    {
+      "id": "1",
+      "firstname": "John",
+      "lastname": "Doe",
+      "email": "john.doe@app.com",
+      "phone": "123123123",
+      "addres": "Ohio",
+      "postcode": "12-345"
+    },
+    {
+      "id": "2",
+      "firstname": "Jane",
+      "lastname": "Smith",
+      "email": "jane.smith@app.com",
+      "phone": "234234234",
+      "addres": "New York",
+      "postcode": "23-456"
+    },
+    {
+      "id": "3",
+      "firstname": "Robert",
+      "lastname": "Johnson",
+      "email": "robert.johnson@app.com",
+      "phone": "345345345",
+      "addres": "California",
+      "postcode": "34-567"
+    },
+    {
+      "id": "4",
+      "firstname": "Emily",
+      "lastname": "Brown",
+      "email": "emily.brown@app.com",
+      "phone": "456456456",
+      "addres": "Texas",
+      "postcode": "45-678"
+    },
+    {
+      "id": "5",
+      "firstname": "Michael",
+      "lastname": "Williams",
+      "email": "michael.williams@app.com",
+      "phone": "567567567",
+      "addres": "Florida",
+      "postcode": "56-789"
+    },
+    {
+      "id": "6",
+      "firstname": "Jessica",
+      "lastname": "Jones",
+      "email": "jessica.jones@app.com",
+      "phone": "678678678",
+      "addres": "Illinois",
+      "postcode": "67-890"
+    },
+    {
+      "id": "7",
+      "firstname": "David",
+      "lastname": "Taylor",
+      "email": "david.taylor@app.com",
+      "phone": "789789789",
+      "addres": "Nevada",
+      "postcode": "78-901"
+    },
+    {
+      "id": "8",
+      "firstname": "Sarah",
+      "lastname": "Miller",
+      "email": "sarah.miller@app.com",
+      "phone": "890890890",
+      "addres": "Washington",
+      "postcode": "89-012"
+    },
+    {
+      "id": "9",
+      "firstname": "James",
+      "lastname": "Anderson",
+      "email": "james.anderson@app.com",
+      "phone": "901901901",
+      "addres": "Oregon",
+      "postcode": "90-123"
+    },
+    {
+      "id": "10",
+      "firstname": "Laura",
+      "lastname": "Wilson",
+      "email": "laura.wilson@app.com",
+      "phone": "012012012",
+      "addres": "Arizona",
+      "postcode": "01-234"
+    },
+    {
+      "firstname": "Tom",
+      "lastname": "Stone",
+      "email": "tom@gmail.com",
+      "phone": "123000123",
+      "address": "New York",
+      "postcode": "123-123",
+      "id": "m4uYLhC"
+    }
   ]
 }

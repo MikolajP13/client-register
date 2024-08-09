@@ -1,1 +1,45 @@
-<p>register works!</p>
+<div class="registration-wrapper mt-3">
+  <h3>Create an account</h3>
+  <form (ngSubmit)="onRegistration()" [formGroup]="registrationForm">
+    <div>
+      <mat-form-field>
+        <mat-label>Enter your email address</mat-label>
+        <input matInput placeholder="example@example.com" (blur)="updateErrorMessage()" formControlName="email">
+        @if (controls.email.invalid) {
+          <mat-error>{{emailErrorMessage()}}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Enter your username</mat-label>
+        <input matInput (blur)="updateErrorMessage()" formControlName="username">
+        @if (controls.username.invalid) {
+          <mat-error>{{usernameErrorMessage()}}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Enter your password</mat-label>
+        <input matInput (blur)="updateErrorMessage()" formControlName="password" [type]="hide() ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="onTogglePasswordField($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        @if (controls.password.invalid) {
+          <mat-error>{{passwordErrorMessage()}}</mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="submit" [disabled]="registrationForm.invalid" mat-raised-button>Create account</button>
+    </div>
+  </form>
+</div>

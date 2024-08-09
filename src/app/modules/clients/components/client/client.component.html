@@ -1,0 +1,13 @@
+@if (client()) {
+  <div>
+    <button mat-raised-button color="warn" (click)="openDialog()">Delete</button>
+  </div>
+  <div>
+    <p>Client:</p>
+    <p>{{ client()?.firstname }} {{client()?.lastname}}</p>
+    <p>{{ client()?.email }}</p>
+    <p>{{ client()?.phone }}</p>
+    <p>{{ client()?.postcode }}</p>
+    <p>{{ client()?.address }}</p>
+  </div>
+}

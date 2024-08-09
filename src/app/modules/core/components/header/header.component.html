@@ -3,7 +3,11 @@
     <span>Client register</span>
     <span class="spacer"></span>
     <button mat-button routerLink="/">Home</button>
-    <button mat-button routerLink="/login">Log in</button>
-    <button mat-button routerLink="/clients">Clients</button>
+    @if (!isUserLogIn()) {
+      <button mat-button routerLink="/login">Log in</button>
+    } @else {
+      <button mat-button (click)="logout()">Logout</button>
+      <button mat-button routerLink="/clients">Clients</button>
+    }
   </mat-toolbar>  
 </nav>

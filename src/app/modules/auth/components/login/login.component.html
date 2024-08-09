@@ -1,5 +1,8 @@
 <div class="login-wrapper mt-3">
   <h3>Log in</h3>
+  @if (loginError()) {
+    <app-alert alertMessage="Invalid username or password" alertClass="alert-danger"/>
+  }
   <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
     <div>
       <mat-form-field>
@@ -7,9 +10,6 @@
         <input matInput formControlName="username">
       </mat-form-field>
     </div>
-    @if ((loginForm.controls.username.touched || loginForm.controls.username.dirty) && loginForm.controls.username.invalid) {
-      <app-alert alertMessage="Username must have 4-30 characters" />
-    }
     <div>
       <mat-form-field>
         <mat-label>Enter your password</mat-label>
@@ -26,11 +26,11 @@
         </button>
       </mat-form-field>
     </div>
-    @if ((loginForm.controls.password.touched || loginForm.controls.password.dirty) && loginForm.controls.password.invalid) {
-      <app-alert alertMessage="Password is required"/>
-    }
     <div class="d-flex justify-content-end">
       <button [disabled]="loginForm.invalid" type="submit" mat-raised-button>Log in</button>
-    </div>  
+    </div>
+    <div>
+      <p class="text-center">Don't have an account? <a routerLink="/registration">Create it here!</a></p>
+    </div>
   </form>
 </div>

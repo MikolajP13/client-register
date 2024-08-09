@@ -7,5 +7,6 @@ import { Component, input } from '@angular/core';
 })
 export class AlertComponent {
   alertMessage = input.required<string>();
+  alertClass = input<string>('alert-warning');
   
 }

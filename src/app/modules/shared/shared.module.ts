@@ -5,10 +5,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
-  declarations: [
-    AlertComponent
-  ],
+  declarations: [AlertComponent],
   imports: [CommonModule],
-  exports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule, AlertComponent],
+  exports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AlertComponent,
+  ],
 })
 export class SharedModule {}

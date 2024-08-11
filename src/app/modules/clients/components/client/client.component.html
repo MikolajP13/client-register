@@ -3,6 +3,9 @@
     <button mat-raised-button color="warn" (click)="openDialog()">Delete</button>
   </div>
   <div>
+    <button mat-raised-button color="primary" (click)="openEditDialog()">Edit</button>
+  </div>
+  <div>
     <p>Client:</p>
     <p>{{ client()?.firstname }} {{client()?.lastname}}</p>
     <p>{{ client()?.email }}</p>

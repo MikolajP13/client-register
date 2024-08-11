@@ -1,0 +1,14 @@
+<mat-form-field class="prefix">
+  <mat-label>Country code</mat-label>
+  <input matInput (blur)="updateErrorMessage()" [formControl]="numberPrefixControl">
+  @if (numberPrefixControl.invalid) {
+    <mat-error>{{countryCodeErrorMessage()}}</mat-error>
+  }
+</mat-form-field>
+<mat-form-field class="number">
+  <mat-label>Phone number</mat-label>
+  <input matInput (blur)="updateErrorMessage()" [formControl]="numberControl">
+  @if (numberControl.invalid) {
+    <mat-error>{{phoneErrorMessage()}}</mat-error>
+  }
+</mat-form-field>

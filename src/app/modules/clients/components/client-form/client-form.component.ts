@@ -1,9 +1,19 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ClientForm } from '../../../core/models/client.model';
+import { Client, ClientForm } from '../../../core/models/client.model';
 import { merge } from 'rxjs';
 import { ClientsService } from '../../../core/services/clients.service';
 import { Router } from '@angular/router';
+import { postcodeValidator } from '../../../shared/validators/postcode.validator';
+import { ClientValidators } from '../../../shared/validators/client.validators';
 
 @Component({
   selector: 'app-client-form',
@@ -15,6 +25,9 @@ export class ClientFormComponent implements OnInit {
   private clientsService = inject(ClientsService);
   private router = inject(Router);
   clientForm!: FormGroup<ClientForm>;
+  client = input<Client>();
+  editMode = input<boolean>(false);
+  closeDialog = output<void>();
 
   firstnameErrorMessage = signal('');
   lastnameErrorMessage = signal('');
@@ -51,10 +64,26 @@ export class ClientFormComponent implements OnInit {
   }
 
   onAddClient() {
-    this.clientsService.postClient(this.clientForm.getRawValue()).subscribe({
-      next: () => this.router.navigate(['/clients']),
-      error: error => console.log(error)
-    })
+    if (this.editMode()) {
+      this.clientsService
+        .putClient(this.clientForm.getRawValue(), this.client()!.id)
+        .subscribe({
+          next: () => {
+            this.emitCloseDialog();
+            this.router.navigate(['/clients']);
+          },
+          error: (error) => console.log(error),
+        });
+    } else {
+      this.clientsService.postClient(this.clientForm.getRawValue()).subscribe({
+        next: () => this.router.navigate(['/clients']),
+        error: (error) => console.log(error),
+      });
+    }
+  }
+
+  emitCloseDialog() {
+    this.closeDialog.emit();
   }
 
   updateErrorMessage() {
@@ -86,11 +115,13 @@ export class ClientFormComponent implements OnInit {
       this.emailErrorMessage.set('');
     }
 
-    if (this.controls.phone.hasError('required')) {
-      this.phoneErrorMessage.set('Phone number is required');
-    } else {
-      this.phoneErrorMessage.set('');
-    }
+    // if (this.controls.phone.hasError('required')) {
+    //   this.phoneErrorMessage.set('Phone number is required');
+    // } else if (this.controls.phone.hasError('minlength')) {
+    //   this.phoneErrorMessage.set('Not a valid email');
+    // }else {
+    //   this.phoneErrorMessage.set('');
+    // }
 
     if (this.controls.address.hasError('required')) {
       this.addressErrorMessage.set('Address is required');
@@ -100,6 +131,8 @@ export class ClientFormComponent implements OnInit {
 
     if (this.controls.postcode.hasError('required')) {
       this.postcodeErrorMessage.set('Postcode is required');
+    } else if (this.controls.postcode.hasError('invalidPostCode')) {
+      this.postcodeErrorMessage.set('Postcode is not valid');
     } else {
       this.postcodeErrorMessage.set('');
     }
@@ -107,30 +140,47 @@ export class ClientFormComponent implements OnInit {
 
   private initForm() {
     this.clientForm = new FormGroup({
-      firstname: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(2), Validators.maxLength(20)],
-        nonNullable: true,
-      }),
-      lastname: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(2), Validators.maxLength(20)],
-        nonNullable: true,
-      }),
-      email: new FormControl('', {
+      firstname: new FormControl(
+        this.editMode() ? this.client()!.firstname : '',
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(20),
+          ],
+          nonNullable: true,
+        },
+      ),
+      lastname: new FormControl(
+        this.editMode() ? this.client()!.lastname : '',
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(20),
+          ],
+          nonNullable: true,
+        },
+      ),
+      email: new FormControl(this.editMode() ? this.client()!.email : '', {
         validators: [Validators.required, Validators.email],
         nonNullable: true,
       }),
-      phone: new FormControl('', {
+      phone: new FormControl(this.editMode() ? this.client()!.phone : '', {
+        validators: [Validators.required, Validators.minLength(2)],
+        nonNullable: true,
+      }),
+      address: new FormControl(this.editMode() ? this.client()!.address : '', {
         validators: [Validators.required],
         nonNullable: true,
       }),
-      address: new FormControl('', {
-        validators: [Validators.required],
-        nonNullable: true,
-      }),
-      postcode: new FormControl('', {
-        validators: [Validators.required],
-        nonNullable: true,
-      }),
+      postcode: new FormControl(
+        this.editMode() ? this.client()!.postcode : '',
+        {
+          validators: [Validators.required, ClientValidators.postcode],
+          nonNullable: true,
+        },
+      ),
     });
   }
 }

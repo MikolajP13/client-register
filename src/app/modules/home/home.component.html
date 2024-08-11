@@ -1,1 +1,2 @@
-<h4>Welcome to the home page!</h4>
+<h3 *appUnless="!user()">Hi, {{user()?.username}}</h3>
+<h3>Welcome to the home page!</h3>

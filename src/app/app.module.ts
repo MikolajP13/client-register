@@ -5,22 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './modules/core/core.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HomeModule } from './modules/home/home.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { ClientsModule } from './modules/clients/clients.module';
-import { provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     CoreModule,
-    HomeModule,
     AuthModule,
-    ClientsModule,
     AppRoutingModule,
   ],
-  providers: [provideAnimationsAsync(), provideHttpClient()],
+  providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

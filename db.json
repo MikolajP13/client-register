@@ -21,21 +21,21 @@
   ],
   "clients": [
     {
-      "id": "1",
       "firstname": "John",
       "lastname": "Doe",
       "email": "john.doe@app.com",
-      "phone": "123123123",
-      "addres": "Ohio",
-      "postcode": "12-345"
+      "phone": "+1 345989001",
+      "address": "Ohio",
+      "postcode": "123-345",
+      "id": "1"
     },
     {
       "id": "2",
       "firstname": "Jane",
       "lastname": "Smith",
       "email": "jane.smith@app.com",
-      "phone": "234234234",
-      "addres": "New York",
+      "phone": "+234 234234234",
+      "address": "New York",
       "postcode": "23-456"
     },
     {
@@ -43,8 +43,8 @@
       "firstname": "Robert",
       "lastname": "Johnson",
       "email": "robert.johnson@app.com",
-      "phone": "345345345",
-      "addres": "California",
+      "phone": "+345 345345345",
+      "address": "California",
       "postcode": "34-567"
     },
     {
@@ -52,8 +52,8 @@
       "firstname": "Emily",
       "lastname": "Brown",
       "email": "emily.brown@app.com",
-      "phone": "456456456",
-      "addres": "Texas",
+      "phone": "+456 456456456",
+      "address": "Texas",
       "postcode": "45-678"
     },
     {
@@ -61,8 +61,8 @@
       "firstname": "Michael",
       "lastname": "Williams",
       "email": "michael.williams@app.com",
-      "phone": "567567567",
-      "addres": "Florida",
+      "phone": "+567 567567567",
+      "address": "Florida",
       "postcode": "56-789"
     },
     {
@@ -70,8 +70,8 @@
       "firstname": "Jessica",
       "lastname": "Jones",
       "email": "jessica.jones@app.com",
-      "phone": "678678678",
-      "addres": "Illinois",
+      "phone": "+678 678678678",
+      "address": "Illinois",
       "postcode": "67-890"
     },
     {
@@ -79,8 +79,8 @@
       "firstname": "David",
       "lastname": "Taylor",
       "email": "david.taylor@app.com",
-      "phone": "789789789",
-      "addres": "Nevada",
+      "phone": "+789 789789789",
+      "address": "Nevada",
       "postcode": "78-901"
     },
     {
@@ -88,8 +88,8 @@
       "firstname": "Sarah",
       "lastname": "Miller",
       "email": "sarah.miller@app.com",
-      "phone": "890890890",
-      "addres": "Washington",
+      "phone": "+890 890890890",
+      "address": "Washington",
       "postcode": "89-012"
     },
     {
@@ -97,8 +97,8 @@
       "firstname": "James",
       "lastname": "Anderson",
       "email": "james.anderson@app.com",
-      "phone": "901901901",
-      "addres": "Oregon",
+      "phone": "+901 901901901",
+      "address": "Oregon",
       "postcode": "90-123"
     },
     {
@@ -106,15 +106,15 @@
       "firstname": "Laura",
       "lastname": "Wilson",
       "email": "laura.wilson@app.com",
-      "phone": "012012012",
-      "addres": "Arizona",
+      "phone": "+012 012012012",
+      "address": "Arizona",
       "postcode": "01-234"
     },
     {
       "firstname": "Tom",
       "lastname": "Stone",
       "email": "tom@gmail.com",
-      "phone": "123000123",
+      "phone": "+123 000123123",
       "address": "New York",
       "postcode": "123-123",
       "id": "m4uYLhC"

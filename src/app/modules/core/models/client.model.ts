@@ -10,7 +10,7 @@ export interface ClientResponse {
   postcode: string;
 }
 
-export type ClientRegistration = Omit<Client, 'id'>;
+export type ClientRegistrationAndEdit = Omit<Client, 'id'>;
 
 export class Client implements ClientResponse {
   constructor(

@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import {
   Client,
-  ClientRegistration,
+  ClientRegistrationAndEdit,
   ClientResponse,
   GetClientResponse,
 } from '../models/client.model';
@@ -82,9 +82,20 @@ export class ClientsService {
       );
   }
 
-  postClient(clientData: ClientRegistration): Observable<Client> {
+  postClient(clientData: ClientRegistrationAndEdit): Observable<Client> {
     return this.httpClient
       .post<ClientResponse>(`${this.apiUrl}/clients`, clientData)
+      .pipe(
+        map(
+          ({ id, firstname, lastname, email, phone, address, postcode }) =>
+            new Client(id, firstname, lastname, email, phone, address, postcode),
+        ),
+      );
+  }
+
+  putClient(clientData: ClientRegistrationAndEdit, id: string): Observable<Client> {
+    return this.httpClient
+      .put<ClientResponse>(`${this.apiUrl}/clients/${id}`, clientData)
       .pipe(
         map(
           ({ id, firstname, lastname, email, phone, address, postcode }) =>

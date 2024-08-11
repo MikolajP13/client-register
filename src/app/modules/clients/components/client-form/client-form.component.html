@@ -1,5 +1,7 @@
 <div class="client-form-wrapper mt-3">
-  <h3>Add new client</h3>
+  @if(!editMode()) {
+    <h3>Add new client</h3>
+  }
   <form (ngSubmit)="onAddClient()" [formGroup]="clientForm">
     <div>
       <mat-form-field>
@@ -29,13 +31,14 @@
       </mat-form-field>
     </div>
     <div>
-      <mat-form-field>
+      <!-- <mat-form-field>
         <mat-label>Phone number</mat-label>
         <input matInput (blur)="updateErrorMessage()" formControlName="phone">
         @if (controls.phone.invalid) {
           <mat-error>{{phoneErrorMessage()}}</mat-error>
         }
-      </mat-form-field>
+      </mat-form-field> -->
+    <app-phone-control formControlName="phone"/>
     </div>
     <div>
       <mat-form-field>
@@ -56,7 +59,10 @@
       </mat-form-field>
     </div>
     <div class="d-flex justify-content-end">
-      <button type="submit" [disabled]="clientForm.invalid" mat-raised-button>Add client</button>
+      @if(editMode()){
+        <button type="button" mat-raised-button color="warn" (click)="emitCloseDialog()">Cancel</button>
+      }
+      <button type="submit" class="mx-1" [disabled]="clientForm.invalid" mat-raised-button>{{ !editMode() ? 'Add client' : 'Edit client'}}</button>
     </div>
   </form>
 </div>

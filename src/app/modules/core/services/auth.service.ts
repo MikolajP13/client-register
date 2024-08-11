@@ -30,6 +30,10 @@ export class AuthService {
       );
   }
 
+  isLoggedIn(): boolean {
+    return !!this.user$.getValue();
+  }
+
   logout() {
     this.user$.next(null);
     this.router.navigate(['login']);

@@ -2,32 +2,43 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map, tap } from 'rxjs';
-import { User, UserLoginData, UserRegistrationData, UserResponse } from '../models/user.model';
+import {
+  User,
+  UserDetailsData,
+  UserLoginData,
+  UserRegistrationData,
+  UserResponse,
+} from '../models/user.model';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   user$ = new BehaviorSubject<User | null>(null);
+  userDetails$ = new BehaviorSubject<UserDetailsData | null>(null);
   apiUrl = environment.apiUrl;
   private httpClient = inject(HttpClient);
   private router = inject(Router);
 
-  constructor() { }
+  constructor() {}
 
   login(userData: UserLoginData) {
-    return this.httpClient.get<UserResponse[]>(`${this.apiUrl}/users`)
-      .pipe(
-        map(userArray => userArray.filter(u => u.username === userData.username && u.password === userData.password)),
-        map(userData => {
-          if (userData.length === 1)
-            return new User(userData[0].email, userData[0].username);
-          else
-            return null;
-        }),
-        tap(user => this.handleAuthentication(user))
-      );
+    return this.httpClient.get<UserResponse[]>(`${this.apiUrl}/users`).pipe(
+      map((userArray) =>
+        userArray.filter(
+          (u) =>
+            u.username === userData.username &&
+            u.password === userData.password,
+        ),
+      ),
+      map((userData) => {
+        if (userData.length === 1)
+          return new User(userData[0].email, userData[0].username);
+        else return null;
+      }),
+      tap((user) => this.handleAuthentication(user)),
+    );
   }
 
   isLoggedIn(): boolean {
@@ -41,9 +52,11 @@ export class AuthService {
   }
 
   autoLogin() {
-    const userData: {email: string; username: string} = JSON.parse(localStorage.getItem('user') as string);
+    const userData: { email: string; username: string } = JSON.parse(
+      localStorage.getItem('user') as string,
+    );
 
-    if(!userData) {
+    if (!userData) {
       return;
     }
 
@@ -52,10 +65,9 @@ export class AuthService {
   }
 
   register(userData: UserRegistrationData) {
-    return this.httpClient.post<UserResponse>(`${this.apiUrl}/users`, userData)
-      .pipe(
-        tap(() => this.router.navigate(['login']))
-      );
+    return this.httpClient
+      .post<UserResponse>(`${this.apiUrl}/users`, userData)
+      .pipe(tap(() => this.router.navigate(['login'])));
   }
 
   private handleAuthentication(user: User | null) {

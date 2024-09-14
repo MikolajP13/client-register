@@ -4,7 +4,10 @@
       "id": "1",
       "username": "admin",
       "password": "123",
-      "email": "admin@app.com"
+      "email": "admin@app.com",
+      "country": "Argentina",
+      "city": "La paz",
+      "phoneNumber": "134980123"
     },
     {
       "email": "test@gmail.com",

@@ -1,0 +1,32 @@
+<div class="welcome">
+  <h5>Welcome, {{user()?.username}}! Today is {{currentDate | date: 'MMM dd, yyyy'}}</h5>
+</div>
+
+<div class="dashboard">
+  <div class="row">
+    <div class="tile" routerLink="/clients">
+      <mat-icon class="tile-icon">groups</mat-icon>
+      Clients
+    </div>
+    @if (isMeetingToday()) {
+    <div class="tile" routerLink="/">
+      <mat-icon class="tile-icon">partner_exchange</mat-icon>
+      Nearest meeting
+    </div>
+    }@else {
+    <div class="tile" routerLink="/">
+      <mat-icon class="tile-icon">person_add</mat-icon>Add meeting
+    </div>
+    }
+  </div>
+
+  <div class="row">
+    <div class="tile" routerLink="/">
+      <mat-icon class="tile-icon">calendar_month</mat-icon>
+      All meetings
+    </div>
+    <div class="tile" routerLink="/">
+      <mat-icon class="tile-icon">bar_chart</mat-icon>Statistics</div>
+  </div>
+
+</div>

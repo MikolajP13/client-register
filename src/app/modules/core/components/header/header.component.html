@@ -1,16 +1,25 @@
 <nav>
   <mat-toolbar class="toolbar">
-    <span>Client register</span>
+    <!-- <img class="app-logo" src="assets/images/cr-app-logo.jpg" alt="app-logo"> -->
+     <span>Client register</span>
+    <span class="gap"></span>
+    <button mat-button routerLink="/">Home</button>
+    @if (isUserLogIn()) {
+    <button mat-button routerLink="/clients">Clients</button>
+    }
+    <button mat-button routerLink="/">About</button>
+    <button mat-button routerLink="/">Contact</button>
     <span class="spacer"></span>
     @if (!isUserLogIn()) {
     <button mat-button routerLink="/login">Log in</button>
+    <button mat-button routerLink="/registration">Sign up</button>
     } @else {
-    <button mat-button routerLink="/">Home</button>
-    <button mat-button routerLink="/clients">Clients</button>
-    <button mat-button [matMenuTriggerFor]="menu">Account</button>
+    <button mat-icon-button>
+      <mat-icon fontIcon="account_circle" [matMenuTriggerFor]="menu" [matTooltip]="userName()"></mat-icon>
+    </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/account-details">Details</button>
-      <button mat-menu-item (click)="logout()">Logout</button>
+      <button mat-menu-item routerLink="/account-details"><mat-icon class="header-icon">settings</mat-icon>Details</button>
+      <button mat-menu-item (click)="logout()"><mat-icon class="header-icon">logout</mat-icon>Logout</button>
     </mat-menu>
     }
   </mat-toolbar>

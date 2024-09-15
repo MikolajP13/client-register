@@ -1,0 +1,25 @@
+.image-row img {
+  width: 100%;
+  height: 50vh;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.columns div {
+  flex: 1;
+  margin: 0 10px;
+  height: 25vh;
+  display: flex;
+  justify-content: center;
+}
+
+.columns span {
+  display: block;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}

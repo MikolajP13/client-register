@@ -1,5 +1,22 @@
 .toolbar {
-  background-color: rgb(109, 160, 228);
+  background-color: rgb(73, 73, 73);
+}
+
+.mat-toolbar button, .mat-toolbar span {
+  color: white;
+}
+
+.app-logo {
+  max-width: 70px;
+  max-height: 40px;
+}
+
+.header-icon {
+  transform: scale(0.7);
+}
+
+.gap {
+  margin: 0 8px;
 }
 
 .spacer {

@@ -1,0 +1,44 @@
+.welcome {
+  margin: 20px 0px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.tile {
+  flex: 1;
+  background-color: rgb(73, 73, 73);
+  color: white;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.tile:hover {
+  background-color: rgb(107, 107, 107);
+}
+
+.tile-icon {
+  transform: scale(1.2);
+  color: white;
+  margin-bottom: 8px;
+}

@@ -1,0 +1,47 @@
+<div class="contact-container">
+  <div class="title-container">
+    <h5>Need help? Contact Us Now!</h5>
+  </div>
+  <div class="content-container">
+    <div class="form-container">
+      <h6>Please fill this form</h6>
+      <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Full name</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="fullName" type="text" />
+          @if (controls.fullName.invalid) {
+          <mat-error>{{fullNameErrorMessage()}}</mat-error>
+          } 
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="emailAddress" type="email" />
+          @if (controls.emailAddress.invalid) {
+          <mat-error>{{emailErrorMessage()}}</mat-error>
+          } 
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Message</mat-label>
+          <textarea matInput (blur)="updateErrorMessage()" formControlName="message" rows="3"></textarea>
+          @if (controls.message.invalid) {
+          <mat-error>{{contactMessageErrorMessage()}}</mat-error>
+          } 
+        </mat-form-field>
+
+        <button type="submit" mat-stroked-button [disabled]="contactForm.invalid">Send message</button>
+      </form>
+    </div>
+    <div class="image-container">
+      <img class="contact-us-image"
+        src="https://images.pexels.com/photos/789822/pexels-photo-789822.jpeg?auto=compress&cs=tinysrgb"
+        alt="Contact us image">
+      <div class="social-icons">
+        <a href="https://www.facebook.com/"><fa-icon class="fa-2xl icon-facebook" [icon]="faFacebook"></fa-icon></a>
+        <a href="https://www.instagram.com/"><fa-icon class="fa-2xl icon-instagram" [icon]="faInstagram"></fa-icon></a>
+        <a href="https://x.com/"><fa-icon class="fa-2xl icon-twitter" [icon]="faXTwitter"></fa-icon></a>
+      </div>
+    </div>
+  </div>
+</div>

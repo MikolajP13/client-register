@@ -21,6 +21,10 @@ export class DeleteClientDialogComponent implements OnInit {
     this.client.set(this.clientData);
   }
 
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
   onDelete() {
     const clientId = this.client()?.id;
     if (clientId) {

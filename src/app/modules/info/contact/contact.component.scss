@@ -1,0 +1,64 @@
+.contact-container {
+  padding-top: 24px;
+  text-align: center;
+}
+
+.title-container {
+  margin-bottom: 20px;
+}
+
+.title-container > h5 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #1f2e35;
+  font-weight: 700;
+}
+
+.content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.form-container {
+  width: 45%;
+}
+
+.form-container > h6 {
+  display: flex;
+  align-items: start;
+}
+
+.image-container {
+  width: 45%;
+}
+
+.contact-us-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icons fa-icon {
+  color: black;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.social-icons .icon-facebook:hover {
+  color: #3b5998;
+}
+
+.social-icons .icon-instagram:hover {
+  color: #fd5949;
+}
+
+.social-icons .icon-twitter:hover {
+  color: #1DA1F2;
+}

@@ -1,6 +1,5 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UserDetails } from '../../../core/models/user.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { merge } from 'rxjs';
 import { confirmPasswordValidator } from '../../../shared/validators/confirm-password.validator';

@@ -1,11 +1,12 @@
-<h2 mat-dialog-title>Delete client</h2>
+<!-- <h2 mat-dialog-title>Delete client</h2> -->
+<app-dialog-header headerTitle="Delete client" (onClose)="closeDialog()" />
 <mat-dialog-content>
   <p>Client: {{client()?.firstname }} {{client()?.lastname}}</p>
   @if(errorMessage()){
     <app-alert [alertMessage]="errorMessage()" alertClass="alert-danger"/>
   }
+  <mat-dialog-actions [align]="'end'">
+    <button mat-stroked-button mat-dialog-close>Cancel</button>
+    <button mat-stroked-button (click)="onDelete()" cdkFocusInitial>Delete</button>
+  </mat-dialog-actions>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="onDelete()" cdkFocusInitial>Delete</button>
-</mat-dialog-actions>

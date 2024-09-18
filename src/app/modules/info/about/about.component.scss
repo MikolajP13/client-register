@@ -1,0 +1,44 @@
+.info-container {
+  display: flex;
+  flex-direction: row;
+  padding: 32px;
+  border-radius: 10px;
+  margin: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.info-container:nth-of-type(odd) {
+  background-color: #F1F6F9;
+}
+
+.info-container:nth-of-type(even) {
+  background-color: #9BA4B5;
+  color: #fff;
+}
+
+.text-container {
+  flex: 1;
+  margin: 0 24px;
+}
+
+.text-container h5 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #1F2E35;
+  font-weight: 700;
+}
+
+.text-container p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #3A4A58;
+}
+
+.about-image {
+  max-height: 200px;
+  max-width: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+}

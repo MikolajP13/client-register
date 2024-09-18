@@ -60,9 +60,9 @@
     </div>
     <div class="d-flex justify-content-end">
       @if(editMode()){
-        <button type="button" mat-raised-button color="warn" (click)="emitCloseDialog()">Cancel</button>
+        <button type="button" mat-stroked-button color="warn" (click)="emitCloseDialog()">Cancel</button>
       }
-      <button type="submit" class="mx-1" [disabled]="clientForm.invalid" mat-raised-button>{{ !editMode() ? 'Add client' : 'Edit client'}}</button>
+      <button type="submit" mat-stroked-button class="mx-1" [disabled]="clientForm.invalid" >{{ !editMode() ? 'Add client' : 'Edit client'}}</button>
     </div>
   </form>
 </div>

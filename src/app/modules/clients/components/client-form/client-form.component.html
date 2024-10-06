@@ -1,68 +1,123 @@
-<div class="client-form-wrapper mt-3">
-  @if(!editMode()) {
-    <h3>Add new client</h3>
+<div class="client-form-wrapper mt-3" [ngClass]="!editMode() ? 'client-form-wrapper-new' : ''">
+  @if (!editMode()) {
+    <h3>Add New Client</h3>
   }
   <form (ngSubmit)="onAddClient()" [formGroup]="clientForm">
-    <div>
-      <mat-form-field>
-        <mat-label>Firstname</mat-label>
-        <input matInput (blur)="updateErrorMessage()" formControlName="firstname">
-        @if (controls.firstname.invalid) {
-          <mat-error>{{firstnameErrorMessage()}}</mat-error>
-        }
-      </mat-form-field>
+    <div class="section-title">Client Personal Information</div>
+    <div class="form-row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Firstname</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="firstname">
+          @if (controls.firstname.invalid) {
+            <mat-error>{{firstnameErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Lastname</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="lastname">
+          @if (controls.lastname.invalid) {
+            <mat-error>{{lastnameErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
     </div>
-    <div>
-      <mat-form-field>
-        <mat-label>Lastname</mat-label>
-        <input matInput (blur)="updateErrorMessage()" formControlName="lastname">
-        @if (controls.lastname.invalid) {
-          <mat-error>{{lastnameErrorMessage()}}</mat-error>
-        }
-      </mat-form-field>
+    <div class="form-row">
+      <div class="col">
+        <app-phone-control formControlName="phone"></app-phone-control>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Email address</mat-label>
+          <input matInput placeholder="example@example.com" (blur)="updateErrorMessage()" formControlName="email">
+          @if (controls.email.invalid) {
+            <mat-error>{{emailErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
     </div>
-    <div>
-      <mat-form-field>
-        <mat-label>Email address</mat-label>
-        <input matInput placeholder="example@example.com" (blur)="updateErrorMessage()" formControlName="email">
-        @if (controls.email.invalid) {
-          <mat-error>{{emailErrorMessage()}}</mat-error>
-        }
-      </mat-form-field>
+    
+    <div class="section-title">Address</div>
+    <div class="form-row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Country</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="country">
+          @if (controls.country.invalid) {
+            <mat-error>{{countryErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>City</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="city">
+          @if (controls.city.invalid) {
+            <mat-error>{{cityErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
     </div>
-    <div>
-      <!-- <mat-form-field>
-        <mat-label>Phone number</mat-label>
-        <input matInput (blur)="updateErrorMessage()" formControlName="phone">
-        @if (controls.phone.invalid) {
-          <mat-error>{{phoneErrorMessage()}}</mat-error>
-        }
-      </mat-form-field> -->
-    <app-phone-control formControlName="phone"/>
+    <div class="form-row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Street</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="street">
+          @if (controls.street.invalid) {
+            <mat-error>{{streetErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Postcode</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="postcode">
+          @if (controls.postcode.invalid) {
+            <mat-error>{{postcodeErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
     </div>
-    <div>
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <input matInput (blur)="updateErrorMessage()" formControlName="address">
-        @if (controls.address.invalid) {
-          <mat-error>{{addressErrorMessage()}}</mat-error>
-        }
-      </mat-form-field>
+
+    <div class="section-title">Company Information</div>
+    <div class="form-row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Company</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="company">
+          @if (controls.company.invalid) {
+            <mat-error>{{companyErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Sector</mat-label>
+          <input matInput (blur)="updateErrorMessage()" formControlName="sector">
+          @if (controls.sector.invalid) {
+            <mat-error>{{sectorErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      </div>
     </div>
-    <div>
-      <mat-form-field>
-        <mat-label>Postcode</mat-label>
-        <input matInput (blur)="updateErrorMessage()" formControlName="postcode">
-        @if (controls.postcode.invalid) {
-          <mat-error>{{postcodeErrorMessage()}}</mat-error>
-        }
-      </mat-form-field>
-    </div>
-    <div class="d-flex justify-content-end">
-      @if(editMode()){
+
+    @if (editMode()) {
+      <div class="form-row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <input matInput (blur)="updateErrorMessage()" formControlName="status">
+          </mat-form-field>
+        </div>
+      </div>
+    }
+    <div class="form-actions d-flex justify-content-end mt-3">
+      @if (editMode()) {
         <button type="button" mat-stroked-button color="warn" (click)="emitCloseDialog()">Cancel</button>
       }
-      <button type="submit" mat-stroked-button class="mx-1" [disabled]="clientForm.invalid" >{{ !editMode() ? 'Add client' : 'Edit client'}}</button>
+      <button type="submit" mat-stroked-button class="mx-1" [disabled]="clientForm.invalid">{{ !editMode() ? 'Add client' : 'Edit client' }}</button>
     </div>
   </form>
 </div>

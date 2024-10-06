@@ -6,6 +6,8 @@ import { Client } from '../../../core/models/client.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteClientDialogComponent } from './delete-client-dialog/delete-client-dialog.component';
 import { EditClientDialogComponent } from './edit-client-dialog/edit-client-dialog.component';
+import { Meeting } from '../../../core/models/meeting.model';
+import { Note } from '../../../core/models/note.model';
 
 @Component({
   selector: 'app-client',
@@ -17,6 +19,8 @@ export class ClientComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
   client = signal<Client | null>(null);
+  meetings = signal<Meeting[]>([]);
+  notes = signal<Note[]>([]);
 
   ngOnInit(): void {
     this.activatedRoute.params

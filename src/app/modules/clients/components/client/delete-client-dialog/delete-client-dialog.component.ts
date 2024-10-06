@@ -10,15 +10,19 @@ import { Router } from '@angular/router';
   styleUrl: './delete-client-dialog.component.scss',
 })
 export class DeleteClientDialogComponent implements OnInit {
+  private clientService = inject(ClientsService);
   private dialogRef = inject(MatDialogRef<DeleteClientDialogComponent>);
-  private clientData = inject<Client>(MAT_DIALOG_DATA);
+  private data = inject<string>(MAT_DIALOG_DATA);
   private clientsService = inject(ClientsService);
   private router = inject(Router);
   errorMessage = signal('');
   client = signal<Client | null>(null);
 
   ngOnInit(): void {
-    this.client.set(this.clientData);
+    this.clientService.getClient(this.data)
+      .subscribe({
+        next: (client) => this.client.set(client),
+      });
   }
 
   closeDialog() {

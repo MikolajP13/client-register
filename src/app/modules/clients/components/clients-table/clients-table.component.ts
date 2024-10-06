@@ -22,6 +22,9 @@ import {
 } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { EditClientDialogComponent } from '../client/edit-client-dialog/edit-client-dialog.component';
+import { DeleteClientDialogComponent } from '../client/delete-client-dialog/delete-client-dialog.component';
 
 @Component({
   selector: 'app-clients-table',
@@ -32,6 +35,9 @@ export class ClientsTableComponent implements AfterViewInit {
   private clientsService = inject(ClientsService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
+  private dialog = inject(MatDialog);
+  
+  private userId!: string;
   totalCount = signal<number>(0);
   filterValue = new FormControl('', { nonNullable: true });
 
@@ -52,8 +58,13 @@ export class ClientsTableComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
+    const userData: { id: string } = JSON.parse(
+      localStorage.getItem('user') as string,
+    );
+    this.userId = userData.id;
+
     this.subscription.add(
-      merge(this.sort.sortChange, this.paginator.page)
+      merge(this.sort.sortChange, this.paginator.page, this.clientsService.refreshClient$)
         .pipe(
           startWith({}),
           switchMap(() => {
@@ -63,6 +74,7 @@ export class ClientsTableComponent implements AfterViewInit {
             const sortColumnName = this.sort.active;
 
             return this.clientsService.getClients(
+              this.userId,
               pageIndex,
               itemsPerPage,
               sortDirection,
@@ -100,7 +112,7 @@ export class ClientsTableComponent implements AfterViewInit {
     const sortColumnName = this.sort.active;
 
     this.clientsService
-      .getClients(pageIndex, itemsPerPage, sortDirection, sortColumnName, value)
+      .getClients(this.userId, pageIndex, itemsPerPage, sortDirection, sortColumnName, value)
       .subscribe({
         next: (response) => {
           this.totalCount.set(response.totalCount);
@@ -117,5 +129,20 @@ export class ClientsTableComponent implements AfterViewInit {
 
   onAddClient() {
     this.router.navigate(['clients/new']);
+  }
+
+  onEditClient(clientId: string) {
+    const dialogRef = this.dialog.open(EditClientDialogComponent, {
+      data: clientId,
+      width: '700px',
+      maxWidth: '700px',
+    });
+  }
+
+  onDeleteClient(clientId: string) {
+    const dialogRef = this.dialog.open(DeleteClientDialogComponent, {
+      data: clientId,
+    });
+    dialogRef.updateSize('400px', '200px');
   }
 }

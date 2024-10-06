@@ -7,7 +7,7 @@ import {
   ClientResponse,
   GetClientResponse,
 } from '../models/client.model';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable, pipe, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +15,12 @@ import { map, Observable } from 'rxjs';
 export class ClientsService {
   apiUrl = environment.apiUrl;
   private httpClient = inject(HttpClient);
+  refreshClient$ = new Subject<void>();
 
   constructor() {}
 
   getClients(
+    userId: string,
     pageIndex: number,
     itemsPerPage: number,
     sortDirection: string,
@@ -51,20 +53,43 @@ export class ClientsService {
           if (!response.body) {
             return { clients: [], totalCount: 0 };
           }
-          const clients: Client[] = response.body.map(
-            ({ id, firstname, lastname, email, phone, address, postcode }) =>
-              new Client(
+          const clients: Client[] = response.body
+            .filter((client) => client.userId === userId)
+            .map(
+              ({
                 id,
+                userId,
                 firstname,
                 lastname,
-                email,
                 phone,
-                address,
+                email,
+                country,
+                city,
+                street,
                 postcode,
-              ),
-          );
+                company,
+                sector,
+                status,
+              }) =>
+                new Client(
+                  id,
+                  userId,
+                  firstname,
+                  lastname,
+                  phone,
+                  email,
+                  country,
+                  city,
+                  street,
+                  postcode,
+                  company,
+                  sector,
+                  status,
+                ),
+            );
 
-          const totalCount = Number(response.headers.get('X-Total-Count'));
+          // const totalCount = Number(response.headers.get('X-Total-Count'));
+          const totalCount = clients.length;
 
           return { clients, totalCount };
         }),
@@ -76,35 +101,126 @@ export class ClientsService {
       .get<ClientResponse>(`${this.apiUrl}/clients/${id}`)
       .pipe(
         map(
-          ({ id, firstname, lastname, email, phone, address, postcode }) =>
-            new Client(id, firstname, lastname, email, phone, address, postcode),
+          ({
+            id,
+            userId,
+            firstname,
+            lastname,
+            phone,
+            email,
+            country,
+            city,
+            street,
+            postcode,
+            company,
+            sector,
+            status,
+          }) =>
+            new Client(
+              id,
+              userId,
+              firstname,
+              lastname,
+              phone,
+              email,
+              country,
+              city,
+              street,
+              postcode,
+              company,
+              sector,
+              status,
+            ),
         ),
       );
   }
 
-  postClient(clientData: ClientRegistrationAndEdit): Observable<Client> {
+  postClient(
+    clientData: ClientRegistrationAndEdit,
+  ): Observable<Client> {
     return this.httpClient
       .post<ClientResponse>(`${this.apiUrl}/clients`, clientData)
       .pipe(
         map(
-          ({ id, firstname, lastname, email, phone, address, postcode }) =>
-            new Client(id, firstname, lastname, email, phone, address, postcode),
-        ),
+          ({
+            id,
+            userId,
+            firstname,
+            lastname,
+            phone,
+            email,
+            country,
+            city,
+            street,
+            postcode,
+            company,
+            sector,
+            status,
+          }) =>
+            new Client(
+              id,
+              userId,
+              firstname,
+              lastname,
+              phone,
+              email,
+              country,
+              city,
+              street,
+              postcode,
+              company,
+              sector,
+              status,
+            ),
+        )
       );
   }
 
-  putClient(clientData: ClientRegistrationAndEdit, id: string): Observable<Client> {
+  putClient(
+    clientData: ClientRegistrationAndEdit,
+    id: string,
+  ): Observable<Client> {
     return this.httpClient
       .put<ClientResponse>(`${this.apiUrl}/clients/${id}`, clientData)
       .pipe(
         map(
-          ({ id, firstname, lastname, email, phone, address, postcode }) =>
-            new Client(id, firstname, lastname, email, phone, address, postcode),
+          ({
+            id,
+            userId,
+            firstname,
+            lastname,
+            phone,
+            email,
+            country,
+            city,
+            street,
+            postcode,
+            company,
+            sector,
+            status,
+          }) =>
+            new Client(
+              id,
+              userId,
+              firstname,
+              lastname,
+              phone,
+              email,
+              country,
+              city,
+              street,
+              postcode,
+              company,
+              sector,
+              status,
+            ),
         ),
       );
   }
 
   deleteClient(clientId: string): Observable<{}> {
-    return this.httpClient.delete(`${this.apiUrl}/clients/${clientId}`);
+    return this.httpClient.delete(`${this.apiUrl}/clients/${clientId}`).pipe(
+      tap(() => this.refreshClient$.next())
+    );
   }
 }

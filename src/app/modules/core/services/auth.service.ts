@@ -34,7 +34,7 @@ export class AuthService {
       ),
       map((userData) => {
         if (userData.length === 1)
-          return new User(userData[0].email, userData[0].username);
+          return new User(userData[0].id , userData[0].email, userData[0].username);
         else return null;
       }),
       tap((user) => this.handleAuthentication(user)),
@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   autoLogin() {
-    const userData: { email: string; username: string } = JSON.parse(
+    const userData: { id:string, email: string; username: string } = JSON.parse(
       localStorage.getItem('user') as string,
     );
 
@@ -60,7 +60,7 @@ export class AuthService {
       return;
     }
 
-    const user = new User(userData.email, userData.username);
+    const user = new User(userData.id, userData.email, userData.username);
     this.user$.next(user);
   }
 
@@ -74,7 +74,7 @@ export class AuthService {
     if (user) {
       this.user$.next(user);
       localStorage.setItem('user', JSON.stringify(user));
-      this.router.navigate(['clients']);
+      this.router.navigate(['/']);
     } else {
       return;
     }

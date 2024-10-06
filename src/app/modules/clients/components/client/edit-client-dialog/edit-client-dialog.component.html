@@ -1,5 +1,7 @@
 <!-- <h2 mat-dialog-title>Edit client</h2> -->
 <app-dialog-header headerTitle="Edit client" (onClose)="closeDialog()"/>
 <mat-dialog-content>
-  <app-client-form [client]="client()" (closeDialog)="closeDialog()" [editMode]="true"/>
+  @if (client()) {
+    <app-client-form [client]="client()" (closeDialog)="closeDialog()" [editMode]="true"/>
+  }
 </mat-dialog-content>

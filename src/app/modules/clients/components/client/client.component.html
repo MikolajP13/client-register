@@ -1,16 +1,71 @@
 @if (client()) {
-  <div>
-    <button mat-raised-button color="warn" (click)="openDialog()">Delete</button>
+  <div class="client-info-wrapper">
+    <div class="row">
+      <div class="col-8">
+        <div class="client-info">
+          <h3>Client Information</h3>
+          <div class="client-details-grid">
+            <div class="client-field">
+              <strong>First Name:</strong> <span>{{ client()?.firstname }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Last Name:</strong> <span>{{ client()?.lastname }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Email:</strong> <span>{{ client()?.email }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Phone:</strong> <span>{{ client()?.phone }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Country:</strong> <span>{{ client()?.country }}</span>
+            </div>
+            <div class="client-field">
+              <strong>City:</strong> <span>{{ client()?.city }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Street:</strong> <span>{{ client()?.street }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Postcode:</strong> <span>{{ client()?.postcode }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Company:</strong> <span>{{ client()?.company }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Sector:</strong> <span>{{ client()?.sector }}</span>
+            </div>
+            <div class="client-field">
+              <strong>Status:</strong> <span>{{ client()?.status }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="client-meetings mt-4">
+          <h3>Meetings</h3>
+          <ul class="meeting-list">
+            @for (meeting of meetings(); track meeting.id) {
+            <li>
+              <strong>{{ meeting.date }}:</strong> {{ meeting.rating }}
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="client-notes">
+          @if (notes().length > 0) {
+            <h3>Notes</h3>
+            <ul class="notes-list">
+              @for (note of notes(); track note.id) {
+              <li>{{ note }}</li>
+              }
+            </ul>
+          }
+          @else {
+            <h6>Note list empty</h6>
+          }
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-    <button mat-raised-button color="primary" (click)="openEditDialog()">Edit</button>
-  </div>
-  <div>
-    <p>Client:</p>
-    <p>{{ client()?.firstname }} {{client()?.lastname}}</p>
-    <p>{{ client()?.email }}</p>
-    <p>{{ client()?.phone }}</p>
-    <p>{{ client()?.postcode }}</p>
-    <p>{{ client()?.address }}</p>
-  </div>
-}
+  }  

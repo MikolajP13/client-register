@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Client, ClientForm } from '../../../core/models/client.model';
+import { Client, ClientForm, ClientStatus } from '../../../core/models/client.model';
 import { merge } from 'rxjs';
 import { ClientsService } from '../../../core/services/clients.service';
 import { Router } from '@angular/router';
@@ -28,19 +28,31 @@ export class ClientFormComponent implements OnInit {
   client = input<Client>();
   editMode = input<boolean>(false);
   closeDialog = output<void>();
+  userId !: string;
 
   firstnameErrorMessage = signal('');
   lastnameErrorMessage = signal('');
-  emailErrorMessage = signal('');
   phoneErrorMessage = signal('');
-  addressErrorMessage = signal('');
+  emailErrorMessage = signal('');
+  countryErrorMessage = signal('');
+  cityErrorMessage = signal('');
+  streetErrorMessage = signal('');
   postcodeErrorMessage = signal('');
+  companyErrorMessage = signal('');
+  sectorErrorMessage = signal('');
+  statusErrorMessage = signal('');
 
   get controls() {
     return this.clientForm.controls;
   }
 
   ngOnInit(): void {
+    const userData: {id: string} = JSON.parse(
+      localStorage.getItem('user') as string
+    );
+
+    this.userId = userData.id;
+
     this.initForm();
 
     const subscription = merge(
@@ -52,8 +64,10 @@ export class ClientFormComponent implements OnInit {
       this.controls.email.valueChanges,
       this.controls.phone.statusChanges,
       this.controls.phone.valueChanges,
-      this.controls.address.statusChanges,
-      this.controls.address.valueChanges,
+      this.controls.country.statusChanges,
+      this.controls.country.valueChanges,
+      this.controls.city.statusChanges,
+      this.controls.city.valueChanges,
       this.controls.postcode.statusChanges,
       this.controls.postcode.valueChanges,
     ).subscribe(() => this.updateErrorMessage());
@@ -66,7 +80,7 @@ export class ClientFormComponent implements OnInit {
   onAddClient() {
     if (this.editMode()) {
       this.clientsService
-        .putClient(this.clientForm.getRawValue(), this.client()!.id)
+        .putClient({...this.clientForm.getRawValue(), userId: this.userId}, this.client()!.id)
         .subscribe({
           next: () => {
             this.emitCloseDialog();
@@ -75,10 +89,14 @@ export class ClientFormComponent implements OnInit {
           error: (error) => console.log(error),
         });
     } else {
-      this.clientsService.postClient(this.clientForm.getRawValue()).subscribe({
-        next: () => this.router.navigate(['/clients']),
-        error: (error) => console.log(error),
-      });
+      this.clientsService
+        .postClient({...this.clientForm.getRawValue(), userId: this.userId, status: ClientStatus.New})
+        .subscribe({
+          next: () => {
+            this.clientForm.markAsPristine();
+            this.router.navigate(['/clients'])},
+          error: (error) => console.log(error),
+        });
     }
   }
 
@@ -123,16 +141,16 @@ export class ClientFormComponent implements OnInit {
     //   this.phoneErrorMessage.set('');
     // }
 
-    if (this.controls.address.hasError('required')) {
-      this.addressErrorMessage.set('Address is required');
+    if (this.controls.country.hasError('required')) {
+      this.countryErrorMessage.set('Country is required');
     } else {
-      this.addressErrorMessage.set('');
+      this.countryErrorMessage.set('');
     }
 
     if (this.controls.postcode.hasError('required')) {
       this.postcodeErrorMessage.set('Postcode is required');
     } else if (this.controls.postcode.hasError('invalidPostCode')) {
-      this.postcodeErrorMessage.set('Postcode is not valid');
+      this.postcodeErrorMessage.set('Postcode is not valid (xx-xxx-x)');
     } else {
       this.postcodeErrorMessage.set('');
     }
@@ -162,16 +180,23 @@ export class ClientFormComponent implements OnInit {
           nonNullable: true,
         },
       ),
-      email: new FormControl(this.editMode() ? this.client()!.email : '', {
-        validators: [Validators.required, Validators.email],
-        nonNullable: true,
-      }),
       phone: new FormControl(this.editMode() ? this.client()!.phone : '', {
         validators: [Validators.required, Validators.minLength(2)],
         nonNullable: true,
       }),
-      address: new FormControl(this.editMode() ? this.client()!.address : '', {
+      email: new FormControl(this.editMode() ? this.client()!.email : '', {
+        validators: [Validators.required, Validators.email],
+        nonNullable: true,
+      }),
+      country: new FormControl(this.editMode() ? this.client()!.country : '', {
         validators: [Validators.required],
+        nonNullable: true,
+      }),
+      city: new FormControl(this.editMode() ? this.client()!.city : '', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      street: new FormControl(this.editMode() ? this.client()!.street : '', {
         nonNullable: true,
       }),
       postcode: new FormControl(
@@ -181,6 +206,17 @@ export class ClientFormComponent implements OnInit {
           nonNullable: true,
         },
       ),
+      company: new FormControl(this.editMode() ? this.client()!.company : '', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      sector: new FormControl(this.editMode() ? this.client()!.sector : '', {
+        validators: [Validators.required],
+        nonNullable: true,
+      }),
+      status: new FormControl(this.editMode() ? this.client()!.status : ClientStatus.New, {
+        nonNullable: true,
+      }),
     });
   }
 }

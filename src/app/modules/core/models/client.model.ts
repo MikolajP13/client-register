@@ -2,12 +2,18 @@ import { FormControl } from '@angular/forms';
 
 export interface ClientResponse {
   id: string;
+  userId: string;
   firstname: string;
   lastname: string;
-  email: string;
   phone: string;
-  address: string;
+  email: string;
+  country: string;
+  city: string;
+  street: string;
   postcode: string;
+  company: string;
+  sector: string;
+  status: ClientStatus;
 }
 
 export type ClientRegistrationAndEdit = Omit<Client, 'id'>;
@@ -15,12 +21,18 @@ export type ClientRegistrationAndEdit = Omit<Client, 'id'>;
 export class Client implements ClientResponse {
   constructor(
     public id: string,
+    public userId: string,
     public firstname: string,
     public lastname: string,
-    public email: string,
     public phone: string,
-    public address: string,
+    public email: string,
+    public country: string,
+    public city: string,
+    public street: string,
     public postcode: string,
+    public company: string,
+    public sector: string,
+    public status: ClientStatus,
   ) {}
 }
 
@@ -32,8 +44,21 @@ export interface GetClientResponse {
 export interface ClientForm {
   firstname: FormControl<string>;
   lastname: FormControl<string>;
-  email: FormControl<string>;
   phone: FormControl<string>;
-  address: FormControl<string>;
+  email: FormControl<string>;
+  country: FormControl<string>;
+  city: FormControl<string>;
+  street: FormControl<string>;
   postcode: FormControl<string>;
+  company: FormControl<string>;
+  sector: FormControl<string>;
+  status: FormControl<ClientStatus>;
+}
+
+export enum ClientStatus {
+  New,
+  Contacted,
+  Interesed,
+  NotInteresed,
+  DealClosed,
 }

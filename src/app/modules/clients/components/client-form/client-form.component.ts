@@ -8,13 +8,20 @@ import {
   signal,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Client, ClientForm, ClientStatus } from '../../../core/models/client.model';
+import {
+  Client,
+  ClientForm,
+  ClientStatus,
+} from '../../../core/models/client.model';
 import { merge } from 'rxjs';
 import { ClientsService } from '../../../core/services/clients.service';
 import { Router } from '@angular/router';
 import { postcodeValidator } from '../../../shared/validators/postcode.validator';
 import { ClientValidators } from '../../../shared/validators/client.validators';
-
+interface Food {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
@@ -28,7 +35,14 @@ export class ClientFormComponent implements OnInit {
   client = input<Client>();
   editMode = input<boolean>(false);
   closeDialog = output<void>();
-  userId !: string;
+  userId!: string;
+  statuses: { id: number; key: string; label: string }[] = Object.keys(
+    ClientStatus,
+  ).map((k, i) => ({
+    id: i,
+    key: k,
+    label: ClientStatus[k as keyof typeof ClientStatus],
+  }));
 
   firstnameErrorMessage = signal('');
   lastnameErrorMessage = signal('');
@@ -47,8 +61,8 @@ export class ClientFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userData: {id: string} = JSON.parse(
-      localStorage.getItem('user') as string
+    const userData: { id: string } = JSON.parse(
+      localStorage.getItem('user') as string,
     );
 
     this.userId = userData.id;
@@ -80,7 +94,10 @@ export class ClientFormComponent implements OnInit {
   onAddClient() {
     if (this.editMode()) {
       this.clientsService
-        .putClient({...this.clientForm.getRawValue(), userId: this.userId}, this.client()!.id)
+        .putClient(
+          { ...this.clientForm.getRawValue(), userId: this.userId },
+          this.client()!.id,
+        )
         .subscribe({
           next: () => {
             this.emitCloseDialog();
@@ -90,11 +107,16 @@ export class ClientFormComponent implements OnInit {
         });
     } else {
       this.clientsService
-        .postClient({...this.clientForm.getRawValue(), userId: this.userId, status: ClientStatus.New})
+        .postClient({
+          ...this.clientForm.getRawValue(),
+          userId: this.userId,
+          status: ClientStatus.New,
+        })
         .subscribe({
           next: () => {
             this.clientForm.markAsPristine();
-            this.router.navigate(['/clients'])},
+            this.router.navigate(['/clients']);
+          },
           error: (error) => console.log(error),
         });
     }
@@ -214,9 +236,12 @@ export class ClientFormComponent implements OnInit {
         validators: [Validators.required],
         nonNullable: true,
       }),
-      status: new FormControl(this.editMode() ? this.client()!.status : ClientStatus.New, {
-        nonNullable: true,
-      }),
+      status: new FormControl(
+        this.editMode() ? this.client()!.status : ClientStatus.New,
+        {
+          nonNullable: true,
+        },
+      ),
     });
   }
 }

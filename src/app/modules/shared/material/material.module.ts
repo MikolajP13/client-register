@@ -11,6 +11,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
@@ -28,7 +30,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatProgressSpinnerModule,
     MatMenuModule,
     MatTooltipModule,
-    FontAwesomeModule
+    MatSelectModule,
+    MatListModule,
+    FontAwesomeModule,
   ],
 })
 export class MaterialModule {}

@@ -56,9 +56,9 @@ export interface ClientForm {
 }
 
 export enum ClientStatus {
-  New,
-  Contacted,
-  Interesed,
-  NotInteresed,
-  DealClosed,
+  New = 'New',
+  Contacted = 'Contacted',
+  Interesed = 'Interesed',
+  NotInteresed = 'Not interesed',
+  DealClosed = 'Deal closed',
 }

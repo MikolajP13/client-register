@@ -1,3 +1,4 @@
+import { FormControl } from "@angular/forms";
 
 export interface NoteResponse {
   id: string;
@@ -19,4 +20,9 @@ export class Note implements NoteResponse {
   ) {}
 }
 
-export type NoteNewEdit = Omit<Note, 'id' | 'userId' | 'clientId'>;
+export type NoteNewEdit = Omit<Note, 'id'>;
+
+export interface NoteForm {
+  title: FormControl<string>;
+  content: FormControl<string>;
+}

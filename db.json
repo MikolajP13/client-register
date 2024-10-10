@@ -31,12 +31,12 @@
       "country": "USA",
       "city": "Ohio",
       "street": "",
-      "postcode": "123-345",
+      "postcode": "12-345-0",
       "company": "World Trade Ltd.",
       "sector": "Trade",
-      "status": "New",
-      "id": "1",
-      "userId": "1"
+      "status": "Interesed",
+      "userId": "1",
+      "id": "1"
     }
   ],
   "notes": [
@@ -47,6 +47,30 @@
       "title": "Title",
       "content": "My simple note",
       "createdDate": "2024-09-02"
+    },
+    {
+      "title": "Test 2",
+      "content": "Content 2",
+      "userId": "1",
+      "clientId": "1",
+      "createdDate": "2024-10-10T15:24:46.340Z",
+      "id": "SVAhRwC"
+    },
+    {
+      "title": "Test 3 after edit",
+      "content": "My client note content!",
+      "userId": "1",
+      "clientId": "1",
+      "createdDate": "2024-10-10T15:39:02.699Z",
+      "id": "Fn1lsTe"
+    },
+    {
+      "title": "test4",
+      "content": "ssssstttt",
+      "userId": "1",
+      "clientId": "1",
+      "createdDate": "2024-10-10T15:40:40.886Z",
+      "id": "hyygASf"
     }
   ],
   "meetings": [

@@ -53,17 +53,11 @@
       </div>
       <div class="col-4">
         <div class="client-notes">
-          @if (notes().length > 0) {
+          <div class="d-flex justify-content-end mb-2">
+            <button class="btn btn-secondary" (click)="onAddNote()">Add note</button>
+          </div>
             <h3>Notes</h3>
-            <ul class="notes-list">
-              @for (note of notes(); track note.id) {
-              <li>{{ note }}</li>
-              }
-            </ul>
-          }
-          @else {
-            <h6>Note list empty</h6>
-          }
+            <app-note [clientId]="client()!.id"></app-note>
         </div>
       </div>
     </div>

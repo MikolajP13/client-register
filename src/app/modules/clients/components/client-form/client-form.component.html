@@ -104,11 +104,16 @@
     </div>
 
     @if (editMode()) {
+      <div class="section-title">Client status</div>
       <div class="form-row">
         <div class="col">
           <mat-form-field>
             <mat-label>Status</mat-label>
-            <input matInput (blur)="updateErrorMessage()" formControlName="status">
+            <mat-select matNativeControl formControlName="status">
+              @for (status of statuses; track status.id) {
+              <mat-option [value]="status.key">{{ status.label }}</mat-option>
+              }
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

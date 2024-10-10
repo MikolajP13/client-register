@@ -45,7 +45,11 @@ export class ClientsTableComponent implements AfterViewInit {
     'no',
     'firstname',
     'lastname',
+    'phone',
     'email',
+    'country',
+    'company',
+    'sector',
     'buttons',
   ];
 

@@ -1,0 +1,2 @@
+<app-dialog-header headerTitle="Client note" (onClose)="closeDialog()"></app-dialog-header>
+<app-note-form [note]="data.note" [clientId]="data.clientId" (closeNoteDialog)="closeDialog()"></app-note-form>

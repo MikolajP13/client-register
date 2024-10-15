@@ -1,0 +1,52 @@
+@if (meetingForm) {
+<form (ngSubmit)="onAddMeeting()" [formGroup]="meetingForm">
+  @if (mode() === 'New' && !clientId() && clients) {
+  <mat-form-field>
+    <mat-label>Client</mat-label>
+    <input type="text" aria-label="Number" matInput formControlName="client" [matAutocomplete]="auto">
+    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="getFullname.bind(this)">
+      @for (client of filteredClients | async; track client) {
+      <mat-option [value]="client.id">{{client.firstname}} {{client.lastname}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  }
+
+  <div>
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [ngxMatTimepicker]="timepicker" placeholder="Select time" formControlName="time" readonly>
+      <ngx-mat-timepicker #timepicker [enableKeyboardInput]="true" [cancelBtnTmpl]="cancelBtnTmpl"
+        [confirmBtnTmpl]="confirmBtnTmpl" timepickerClass="time-picker"></ngx-mat-timepicker>
+      <mat-icon matSuffix (click)="timepicker.open()">access_time</mat-icon>
+      <ng-template #cancelBtnTmpl>
+        <button type="button" mat-stroked-button>Cancel</button>
+      </ng-template>
+      <ng-template #confirmBtnTmpl>
+        <button type="button" mat-stroked-button>Ok</button>
+      </ng-template>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <button type="button" mat-stroked-button color="warn" (click)="emitCloseDialog()">Cancel</button>
+    @if (editMode()) {
+    <button type="button" mat-stroked-button (click)="onDelete()">Delete</button>
+    <button type="button" mat-stroked-button (click)="toggleEditMode()">Edit</button>
+    }
+    @if (newMode() || !editMode()) {
+    <button type="submit" mat-stroked-button class="mx-1" [disabled]="false">
+      Save
+    </button>
+    }
+  </div>
+</form>
+}

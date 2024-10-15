@@ -1,4 +1,6 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Client } from '../../core/models/client.model';
+import { MeetingPopupMode } from '../../core/models/meeting.model';
 
 export class ClientValidators {
   static postcode(control: AbstractControl): ValidationErrors | null {
@@ -10,5 +12,13 @@ export class ClientValidators {
     } else {
       return { invalidPostCode: { value } };
     }
+  }
+
+  static clientValidator(clients: Client[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      const isValid = clients.some(client => client.id === value);
+      return isValid ? null : { invalidClient: { value } };
+    };
   }
 }

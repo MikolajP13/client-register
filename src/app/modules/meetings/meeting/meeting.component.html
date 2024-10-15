@@ -1,0 +1,9 @@
+<ul>
+ @for (meeting of meetings; track meeting.id) {
+  <li>
+    <h5>{{meeting.date | date: 'short'}}</h5>
+    <mat-icon aria-hidden="false" fontIcon="more_horiz" (click)="onMeetingDetails(meeting)"></mat-icon>
+    <p>{{meeting.status}}</p>
+  </li>
+ } 
+</ul>

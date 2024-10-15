@@ -13,10 +13,15 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [],
+  providers: [provideNativeDateAdapter()],
   exports: [
     MatToolbarModule,
     MatButtonModule,
@@ -32,6 +37,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatTooltipModule,
     MatSelectModule,
     MatListModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    NgxMatTimepickerModule,
     FontAwesomeModule,
   ],
 })

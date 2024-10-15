@@ -9,10 +9,11 @@ import { ClientFormComponent } from './components/client-form/client-form.compon
 import { DeleteClientDialogComponent } from './components/client/delete-client-dialog/delete-client-dialog.component';
 import { EditClientDialogComponent } from './components/client/edit-client-dialog/edit-client-dialog.component';
 import { NotesModule } from '../notes/notes.module';
+import { MeetingsModule } from '../meetings/meetings.module';
 
 @NgModule({
   declarations: [ClientsComponent, ClientsTableComponent, ClientComponent, ClientFormComponent, DeleteClientDialogComponent, EditClientDialogComponent],
-  imports: [SharedModule, ClientsRoutingModule, NotesModule],
+  imports: [SharedModule, ClientsRoutingModule, NotesModule, MeetingsModule],
   exports: [],
 })
 export class ClientsModule {}

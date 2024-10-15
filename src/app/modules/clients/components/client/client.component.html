@@ -41,14 +41,11 @@
           </div>
         </div>
         <div class="client-meetings mt-4">
+          <div class="d-flex justify-content-end mb-2">
+            <button class="btn btn-secondary" (click)="onAddMeeting()">Add meeting</button>
+          </div>
           <h3>Meetings</h3>
-          <ul class="meeting-list">
-            @for (meeting of meetings(); track meeting.id) {
-            <li>
-              <strong>{{ meeting.date }}:</strong> {{ meeting.rating }}
-            </li>
-            }
-          </ul>
+          <app-meeting [clientId]="client()!.id"></app-meeting>
         </div>
       </div>
       <div class="col-4">

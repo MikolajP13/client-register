@@ -19,6 +19,16 @@ export class ClientsService {
 
   constructor() {}
 
+  getClientsByUserId(userId: string) {
+    return this.httpClient
+      .get<ClientResponse[]>(`${this.apiUrl}/clients`)
+      .pipe(
+        map((response) =>
+          response.filter((client) => client.userId === userId),
+        ),
+      );
+  }
+
   getClients(
     userId: string,
     pageIndex: number,
@@ -135,9 +145,7 @@ export class ClientsService {
       );
   }
 
-  postClient(
-    clientData: ClientRegistrationAndEdit,
-  ): Observable<Client> {
+  postClient(clientData: ClientRegistrationAndEdit): Observable<Client> {
     return this.httpClient
       .post<ClientResponse>(`${this.apiUrl}/clients`, clientData)
       .pipe(
@@ -172,7 +180,7 @@ export class ClientsService {
               sector,
               status,
             ),
-        )
+        ),
       );
   }
 
@@ -219,8 +227,8 @@ export class ClientsService {
   }
 
   deleteClient(clientId: string): Observable<{}> {
-    return this.httpClient.delete(`${this.apiUrl}/clients/${clientId}`).pipe(
-      tap(() => this.refreshClient$.next())
-    );
+    return this.httpClient
+      .delete(`${this.apiUrl}/clients/${clientId}`)
+      .pipe(tap(() => this.refreshClient$.next()));
   }
 }

@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="welcome">
   <h5>Welcome, {{user()?.username}}! Today is {{currentDate | date: 'MMM dd, yyyy'}}</h5>
 </div>
@@ -14,7 +16,7 @@
       Nearest meeting
     </div>
     }@else {
-    <div class="tile" routerLink="/">
+    <div class="tile" (click)="onAddMeeting()">
       <mat-icon class="tile-icon">person_add</mat-icon>Add meeting
     </div>
     }

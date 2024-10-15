@@ -7,7 +7,7 @@
             <h6 class="list-item-title">{{ note.title }}</h6>
             <mat-icon aria-hidden="false" fontIcon="more_horiz" (click)="onNoteDetails(note)"></mat-icon>
           </div>
-          <p class="list-item-content">{{ note.content }}</p>
+          <p class="list-item-content">{{ note.content | noteContentCutter }}</p>
           <span class="list-item-date">{{ note.createdDate | date: 'short'}}</span>
         </div>
       </li>

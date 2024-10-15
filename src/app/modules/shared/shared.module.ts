@@ -7,9 +7,10 @@ import { PhoneControlComponent } from './controls/phone-control/phone-control.co
 import { HighlightDirective } from './directives/highlight.directive';
 import { UnlessDirective } from './directives/unless.directive';
 import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
+import { NoteContentCutterPipe } from './note-content-cutter/note-content-cutter.pipe';
 
 @NgModule({
-  declarations: [AlertComponent, PhoneControlComponent, DialogHeaderComponent, HighlightDirective, UnlessDirective],
+  declarations: [AlertComponent, PhoneControlComponent, DialogHeaderComponent, HighlightDirective, UnlessDirective, NoteContentCutterPipe],
   imports: [CommonModule, ReactiveFormsModule, MaterialModule],
   exports: [
     CommonModule,
@@ -20,7 +21,8 @@ import { DialogHeaderComponent } from './dialog-header/dialog-header.component';
     PhoneControlComponent,
     HighlightDirective,
     UnlessDirective,
-    DialogHeaderComponent
+    DialogHeaderComponent,
+    NoteContentCutterPipe
   ],
 })
 export class SharedModule {}

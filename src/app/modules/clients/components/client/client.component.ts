@@ -5,9 +5,10 @@ import { switchMap } from 'rxjs';
 import { Client } from '../../../core/models/client.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteClientDialogComponent } from './delete-client-dialog/delete-client-dialog.component';
-import { Meeting } from '../../../core/models/meeting.model';
+import { Meeting, MeetingPopupMode } from '../../../core/models/meeting.model';
 import { Note } from '../../../core/models/note.model';
 import { NoteDialogComponent } from '../../../notes/note-dialog/note-dialog.component';
+import { MeetingDialogComponent } from '../../../meetings/meeting-dialog/meeting-dialog.component';
 
 @Component({
   selector: 'app-client',
@@ -33,6 +34,13 @@ export class ClientComponent implements OnInit {
   onAddNote() {
     const dialogRef = this.dialog.open(NoteDialogComponent, {
       data: { note: null, clientId: this.client()!.id },
+    });
+    dialogRef.updateSize('600px', '400px');
+  }
+
+  onAddMeeting() {
+    const dialogRef = this.dialog.open(MeetingDialogComponent, {
+      data: { note: null, clientId: this.client()!.id, mode: MeetingPopupMode.New },
     });
     dialogRef.updateSize('600px', '400px');
   }

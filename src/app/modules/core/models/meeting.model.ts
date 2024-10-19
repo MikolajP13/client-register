@@ -1,3 +1,5 @@
+import { Client } from "./client.model";
+
 export interface MeetingResponse {
   id: string;
   userId: string;
@@ -11,6 +13,16 @@ export class Meeting implements MeetingResponse {
     public id: string,
     public userId: string,
     public clientId: string,
+    public date: Date,
+    public status: MeetingStatus,
+  ) {}
+}
+
+export class MeetingCarousel {
+  constructor(
+    public id: string,
+    public userId: string,
+    public client: Client,
     public date: Date,
     public status: MeetingStatus,
   ) {}

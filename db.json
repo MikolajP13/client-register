@@ -92,51 +92,16 @@
     {
       "userId": "1",
       "clientId": "4bdDRjA",
-      "date": "2024-10-17T22:10:00.000Z",
+      "date": "2024-10-19T22:10:00.000Z",
       "status": "Scheduled",
       "id": "IkVyxmi"
     },
     {
       "userId": "1",
-      "clientId": "1",
-      "date": "2024-10-16T22:55:00.000Z",
-      "status": "Scheduled",
-      "id": "snv5WvJ"
-    },
-    {
-      "userId": "1",
-      "clientId": "1",
-      "date": "2024-10-15T22:05:00.000Z",
-      "status": "Scheduled",
-      "id": "dRHOLgs"
-    },
-    {
-      "userId": "1",
-      "clientId": "1",
-      "date": "2024-10-16T08:00:00.000Z",
-      "status": "Scheduled",
-      "id": "AIJiL6h"
-    },
-    {
-      "userId": "1",
-      "clientId": "1",
-      "date": "2024-10-01T06:00:00.000Z",
-      "status": "Scheduled",
-      "id": "KCBzy2X"
-    },
-    {
-      "userId": "1",
-      "clientId": "1",
-      "date": "2024-10-05T16:30:00.000Z",
-      "status": "Scheduled",
-      "id": "c8qwn5s"
-    },
-    {
-      "userId": "1",
       "clientId": "4bdDRjA",
-      "date": "2024-10-31T02:50:00.000Z",
+      "date": "2024-10-19T22:05:00.000Z",
       "status": "Scheduled",
-      "id": "Vzgayu_"
+      "id": "DpQkBW6"
     }
   ]
 }

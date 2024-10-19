@@ -3,6 +3,45 @@
 <div class="welcome">
   <h5>Welcome, {{user()?.username}}! Today is {{currentDate | date: 'MMM dd, yyyy'}}</h5>
 </div>
+@if (todaysMeetings.length > 0) {
+  <div class="meetings-carousel">
+    <p-carousel 
+        [value]="todaysMeetings" 
+        [numVisible]="1" 
+        [numScroll]="1" 
+        [circular]="false"
+        showIndicators="false"
+        autoplayInterval="8000"
+        [responsiveOptions]="responsiveOptions"
+        styleClass="cr-carousel"
+        >
+        <ng-template let-meeting pTemplate="item">
+          <div class="meeting-card border-round p-3">
+            <div class="client-info text-center">
+              <h3 class="client-name">
+                {{ meeting.client.firstname }} {{ meeting.client.lastname }}
+              </h3>
+              <span class="date">
+                {{ meeting.date | date:'medium' }}
+              </span>
+            </div>
+            <div class="additional-info grid">
+              <div class="column">
+                <p class="client-company">Company: {{ meeting.client.company }}</p>
+                <p class="client-country">Country: {{ meeting.client.country }}</p>
+              </div>
+              <div class="column">
+                <p class="client-phone">Phone: {{ meeting.client.phone }}</p>
+                <p class="meeting-status">
+                  <p-tag [value]="meeting.status" severity="success"></p-tag>
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+    </p-carousel>
+  </div>
+}
 
 <div class="dashboard">
   <div class="row">

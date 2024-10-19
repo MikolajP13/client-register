@@ -16,6 +16,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CarouselModule } from 'primeng/carousel';
+import { TagModule } from 'primeng/tag';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -39,6 +41,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatListModule,
     MatDatepickerModule,
     MatAutocompleteModule,
+    CarouselModule,
+    TagModule,
     NgxMatTimepickerModule,
     FontAwesomeModule,
   ],

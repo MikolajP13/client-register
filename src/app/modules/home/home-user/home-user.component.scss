@@ -42,3 +42,87 @@
   color: white;
   margin-bottom: 8px;
 }
+
+.meetings-carousel {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 8px;
+}
+
+::ng-deep .p-carousel-prev,
+::ng-deep .p-carousel-next {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0 8px;
+  border: 1px solid gray;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+::ng-deep .p-carousel-prev:hover,
+::ng-deep .p-carousel-next:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+::ng-deep .p-carousel-prev::after,
+::ng-deep .p-carousel-next::after {
+  font-weight: 900;
+  color: #7a7a7a;
+  font-size: 1.25rem;
+}
+
+.meeting-card {
+  background-color: #f9f9f9;
+  border: 1px gray solid;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 8px 8px;
+}
+
+.client-info {
+  padding: 5px 0;
+  text-align: center;
+}
+
+.client-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.date {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #7a7a7a;
+  margin-top: 2px;
+}
+
+.additional-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15vw;
+  margin-top: 10px;
+}
+
+.column {
+  padding: 2px;
+  text-align: center;
+}
+
+.client-company,
+.client-country,
+.client-phone {
+  font-size: 0.875rem;
+  color: #555;
+  margin: 0;
+}
+
+.meeting-status {
+  margin-top: 5px;
+  text-align: center;
+}

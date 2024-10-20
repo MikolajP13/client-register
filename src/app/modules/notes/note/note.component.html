@@ -1,11 +1,13 @@
 @if (notes.length > 0) {
   <ul>
     @for (note of notes; track note.id) {
-      <li>
+      <li class="underline">
         <div class="list-item-container">
           <div class="list-item-header">
             <h6 class="list-item-title">{{ note.title }}</h6>
-            <mat-icon aria-hidden="false" fontIcon="more_horiz" (click)="onNoteDetails(note)"></mat-icon>
+            <div class="icon-container">
+              <mat-icon class="list-item-icon-more" aria-hidden="false" fontIcon="more_horiz" (click)="onNoteDetails(note)"></mat-icon>
+            </div>          
           </div>
           <p class="list-item-content">{{ note.content | noteContentCutter }}</p>
           <span class="list-item-date">{{ note.createdDate | date: 'short'}}</span>

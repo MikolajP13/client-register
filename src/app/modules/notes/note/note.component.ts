@@ -34,7 +34,11 @@ export class NoteComponent implements OnInit {
         switchMap(() => this.noteService.getNotes(this.clientId())),
       )
       .subscribe({
-        next: (notes) => (this.notes = notes),
+        next: (notes) =>
+          (this.notes = notes.sort(
+            (n1, n2) =>
+              new Date(n2.createdDate).getTime() - new Date(n1.createdDate).getTime(),
+          )),
         error: (err) => console.log('An unexpected error occured'),
       });
 

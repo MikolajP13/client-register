@@ -52,21 +52,25 @@
       </tr>
     </table>
 
-    <div class="form-actions">
+    <div class="action-buttons d-flex justify-content-end">
       @if (!editMode()) {
-      <button type="button" mat-stroked-button class="edit-btn" (click)="toggleEditMode()">
-        <mat-icon>edit</mat-icon>Edit
+      <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="toggleEditMode()">
+        <mat-icon class="btn-mat-icon align-middle me-2">edit</mat-icon>
+        Edit
       </button>
       }
       @else {
-      <button type="button" mat-stroked-button (click)="cancelChanges()">
-        <mat-icon>close</mat-icon>Cancel
+      <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="cancelChanges()">
+        <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
+        Cancel
       </button>
-      <button type="submit" mat-stroked-button [disabled]="userForm.invalid">
-        <mat-icon>checkmark</mat-icon>Save
+      <button type="submit" class="btn btn-primary d-inline-flex align-items-center mx-2" [disabled]="userForm.invalid">
+        <mat-icon class="btn-mat-icon align-middle me-2">checkmark</mat-icon>
+        Save
       </button>
-      <button type="button" mat-stroked-button (click)="openChangePasswordDialog()">
-        <mat-icon>key</mat-icon>Change password
+      <button type="button" class="btn btn-primary d-inline-flex align-items-center"(click)="openChangePasswordDialog()">
+        <mat-icon class="btn-mat-icon align-middle me-2">key</mat-icon>
+        Change password
       </button>
       }
     </div>

@@ -1,9 +1,15 @@
 <ul>
- @for (meeting of meetings; track meeting.id) {
-  <li>
-    <h5>{{meeting.date | date: 'short'}}</h5>
-    <mat-icon aria-hidden="false" fontIcon="more_horiz" (click)="onMeetingDetails(meeting)"></mat-icon>
-    <p>{{meeting.status}}</p>
-  </li>
- } 
+  @for (meeting of meetings; track meeting.id) {
+    <li class="underline">
+      <div class="list-item-container">
+        <div class="list-item-header">
+          <h6 class="list-item-title">{{ meeting.date | date: 'short' }}</h6>
+          <div class="icon-container">
+            <mat-icon class="list-item-icon-more" aria-hidden="false" fontIcon="more_horiz" (click)="onMeetingDetails(meeting)"></mat-icon>
+          </div>
+        </div>
+        <p class="list-item-content">{{ meeting.status }}</p>
+      </div>
+    </li>
+  }
 </ul>

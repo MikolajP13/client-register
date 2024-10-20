@@ -16,7 +16,7 @@
 
 .col-4 {
   flex: 0 0 33.3333%;
-  padding-left: 20px;
+  padding-left: 0px;
 }
 
 .client-info, .client-meetings, .client-notes {
@@ -27,7 +27,27 @@
   border-radius: 5px;
 }
 
-.client-info h3, .client-meetings h3, .client-notes h3 {
+.client-meetings {
+  margin-bottom: 0px;
+  min-height: calc(100vh - 517px);
+  max-height: calc(100vh - 517px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.client-notes {
+  margin-bottom: 0px;
+  min-height: calc(100vh - 106px);
+  max-height: calc(100vh - 106px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.client-info .btn, .client-meetings .btn, .client-notes .btn {
+  height: 38px;
+}
+
+.client-info h3, .underline {
   color: rgb(73, 73, 73);
   border-bottom: 2px solid #ddd;
   padding-bottom: 10px;

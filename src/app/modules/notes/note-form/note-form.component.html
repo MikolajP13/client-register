@@ -1,26 +1,50 @@
 @if(noteForm){
-  <form (ngSubmit)="onAddNote()" [formGroup]="noteForm">
-    <mat-form-field>
-      <mat-label>Title</mat-label>
-      <input matInput formControlName="title">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Content</mat-label>
-      <textarea matInput formControlName="content">
-      </textarea>
-    </mat-form-field>
-    <div>
-      <button type="button" mat-stroked-button color="warn" (click)="emitCloseDialog()">Cancel</button>
-      @if (editNoteMode()) {
-        <button type="button" mat-stroked-button (click)="onDelete()">Delete</button>
-        <button type="button" mat-stroked-button (click)="toggleEditMode()">Edit</button>
-      }
-      @if (newNoteMode() || !editNoteMode()) {
-      <button type="submit" mat-stroked-button class="mx-1" [disabled]="this.noteForm.invalid">
-        Save
-      </button>
-      }
-    </div>
-  </form>
+<form (ngSubmit)="onAddNote()" [formGroup]="noteForm" class="note-form">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Content</mat-label>
+    <textarea matInput formControlName="content" class="note-textarea" rows="5">
+    </textarea>
+  </mat-form-field>
+  <div class="action-buttons d-flex justify-content-end">
+    @if (editNoteMode()) {
+    <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="emitCloseDialog()">
+      <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
+      Close
+    </button>
+    <button type="button" class="btn btn-primary d-inline-flex align-items-center ms-2" (click)="toggleEditMode()">
+      <mat-icon class="btn-mat-icon align-middle me-2">edit_note</mat-icon>
+      Edit
+    </button>
+    }
+    @if (!newNoteMode() && !editNoteMode()) {
+    <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="toggleEditMode()">
+      <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
+      Cancel
+    </button>
+    <button type="button" class="btn btn-secondary d-inline-flex align-items-center mx-2" (click)="onDelete()">
+      <mat-icon class="btn-mat-icon align-middle me-2">playlist_remove</mat-icon>
+      Delete
+    </button>
+    <button type="submit" class="btn btn-primary d-inline-flex align-items-center" [disabled]="this.noteForm.invalid">
+      <mat-icon class="btn-mat-icon align-middle me-2">check</mat-icon>
+      Save
+    </button>
+    }
+    @if (newNoteMode() && !editNoteMode()) {
+    <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="emitCloseDialog()">
+      <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
+      Close
+    </button>
+    <button type="submit" class="btn btn-primary d-inline-flex align-items-center ms-2"
+      [disabled]="this.noteForm.invalid">
+      <mat-icon class="btn-mat-icon align-middle me-2">check</mat-icon>
+      Save
+    </button>
+    }
+  </div>
+</form>
 }
-

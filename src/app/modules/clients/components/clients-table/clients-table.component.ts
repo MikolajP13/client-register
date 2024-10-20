@@ -146,7 +146,8 @@ export class ClientsTableComponent implements AfterViewInit {
   onDeleteClient(clientId: string) {
     const dialogRef = this.dialog.open(DeleteClientDialogComponent, {
       data: clientId,
+      position: {top: '15%'}
     });
-    dialogRef.updateSize('400px', '200px');
+    dialogRef.updateSize('500px', '220px');
   }
 }

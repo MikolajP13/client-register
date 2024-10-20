@@ -20,7 +20,6 @@ export class HomeUserComponent implements OnInit {
   private meetingService = inject(MeetingService);
   user = input.required<User | null>();
   currentDate = new Date();
-  isMeetingToday = signal(false);
 
   todaysMeetings: MeetingCarousel[] = [];
   responsiveOptions: any[] | undefined;
@@ -40,7 +39,7 @@ export class HomeUserComponent implements OnInit {
     const dialogRef = this.dialog.open(MeetingDialogComponent, {
       data: { meeting: null, clientId: null, mode: MeetingPopupMode.New },
       width: '600px',
-      height: '400px',
+      height: '290px',
     });
   }
 }

@@ -120,9 +120,15 @@
     }
     <div class="form-actions d-flex justify-content-end mt-3">
       @if (editMode()) {
-        <button type="button" mat-stroked-button color="warn" (click)="emitCloseDialog()">Cancel</button>
+        <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="emitCloseDialog()">
+          <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
+          Cancel
+        </button>
       }
-      <button type="submit" mat-stroked-button class="mx-1" [disabled]="clientForm.invalid">{{ !editMode() ? 'Add client' : 'Edit client' }}</button>
+      <button type="submit" class="btn btn-primary d-inline-flex align-items-center ms-2" [disabled]="clientForm.invalid">
+        <mat-icon class="btn-mat-icon align-middle me-2">check</mat-icon>
+        {{ !editMode() ? 'Add client' : 'Save client' }}
+      </button>
     </div>
   </form>
 </div>

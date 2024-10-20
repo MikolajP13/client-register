@@ -58,6 +58,7 @@ export class MeetingFormComponent implements OnInit {
       });
     } else if (this.mode() === MeetingPopupMode.Edit && this.meeting()) {
       this.editMode.set(!this.editMode());
+      this.newMode.set(!this.newMode());
       this.initForm();
     } else {
       this.initForm();
@@ -115,7 +116,11 @@ export class MeetingFormComponent implements OnInit {
     this.closeMeetingDialog.emit();
   }
 
-  toggleEditMode() {}
+  toggleEditMode() {
+    if (this.editMode()) this.meetingForm.enable();
+    else this.meetingForm
+    this.editMode.set(!this.editMode());
+  }
 
   getFullname(clientId: string) {
     const client = this.clients.find((client) => client.id === clientId);
@@ -163,6 +168,8 @@ export class MeetingFormComponent implements OnInit {
         Validators.required,
         ClientValidators.clientValidator(this.clients),
       ]);
+    } else if (this.clientId() && this.editMode()) {
+      this.meetingForm.disable();
     }
 
     this.filteredClients = this.meetingForm.controls[

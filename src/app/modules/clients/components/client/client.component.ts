@@ -35,13 +35,13 @@ export class ClientComponent implements OnInit {
     const dialogRef = this.dialog.open(NoteDialogComponent, {
       data: { note: null, clientId: this.client()!.id },
     });
-    dialogRef.updateSize('600px', '400px');
+    dialogRef.updateSize('700px', '390px');
   }
 
   onAddMeeting() {
     const dialogRef = this.dialog.open(MeetingDialogComponent, {
       data: { note: null, clientId: this.client()!.id, mode: MeetingPopupMode.New },
     });
-    dialogRef.updateSize('600px', '400px');
+    dialogRef.updateSize('700px', '220px');
   }
 }

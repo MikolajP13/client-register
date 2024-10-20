@@ -49,16 +49,9 @@
       <mat-icon class="tile-icon">groups</mat-icon>
       Clients
     </div>
-    @if (isMeetingToday()) {
-    <div class="tile" routerLink="/">
-      <mat-icon class="tile-icon">partner_exchange</mat-icon>
-      Nearest meeting
-    </div>
-    }@else {
     <div class="tile" (click)="onAddMeeting()">
       <mat-icon class="tile-icon">person_add</mat-icon>Add meeting
     </div>
-    }
   </div>
 
   <div class="row">

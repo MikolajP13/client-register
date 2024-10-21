@@ -1,7 +1,15 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { Note, NoteForm } from '../../core/models/note.model';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NoteService } from '../../core/services/note.service';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-note-form',
@@ -10,6 +18,7 @@ import { NoteService } from '../../core/services/note.service';
 })
 export class NoteFormComponent {
   private noteService = inject(NoteService);
+  private destroyRef = inject(DestroyRef);
   note = input.required<Note | null>();
   clientId = input.required<string>();
   userId!: string;
@@ -18,6 +27,9 @@ export class NoteFormComponent {
   closeNoteDialog = output<void>();
 
   noteForm!: FormGroup<NoteForm>;
+
+  titleErrorMessage = signal('');
+  contentErrorMessage = signal('');
 
   ngOnInit(): void {
     const userData: { id: string } = JSON.parse(
@@ -33,6 +45,17 @@ export class NoteFormComponent {
       this.initForm();
       this.noteForm.enable();
     }
+
+    const subscription = merge(
+      this.noteForm.controls['title'].statusChanges,
+      this.noteForm.controls['title'].valueChanges,
+      this.noteForm.controls['content'].statusChanges,
+      this.noteForm.controls['content'].valueChanges,
+    ).subscribe(() => this.updateErrorMessage());
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 
   emitCloseDialog() {
@@ -77,17 +100,43 @@ export class NoteFormComponent {
 
   onDelete() {
     this.noteService.deleteNote(this.note()!.id).subscribe({
-      next: () => this.emitCloseDialog()
-    })
+      next: () => this.emitCloseDialog(),
+    });
+  }
+
+  updateErrorMessage() {
+    if (this.noteForm.controls['title'].hasError('required')) {
+      this.titleErrorMessage.set('Title is required');
+    } else if (this.noteForm.controls['title'].hasError('minlength')) {
+      this.titleErrorMessage.set('Title must contain at least 3 characters');
+    } else {
+      this.titleErrorMessage.set('');
+    }
+
+    if (this.noteForm.controls['content'].hasError('required')) {
+      this.contentErrorMessage.set('Content is required');
+    } else if (this.noteForm.controls['content'].hasError('minlength')) {
+      this.contentErrorMessage.set('Content must contain at least 5 characters');
+    } else if (this.noteForm.controls['content'].hasError('maxlength')) {
+      this.contentErrorMessage.set('Maximum length of content is 500 characters');
+    } else {
+      this.contentErrorMessage.set('');
+    }
   }
 
   private initForm() {
     this.noteForm = new FormGroup({
       title: new FormControl(this.newNoteMode() ? '' : this.note()!.title, {
         nonNullable: true,
+        validators: [Validators.required, Validators.minLength(3)],
       }),
       content: new FormControl(this.newNoteMode() ? '' : this.note()!.content, {
         nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(500),
+        ],
       }),
     });
 

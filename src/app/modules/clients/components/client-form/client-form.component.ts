@@ -84,6 +84,10 @@ export class ClientFormComponent implements OnInit {
       this.controls.city.valueChanges,
       this.controls.postcode.statusChanges,
       this.controls.postcode.valueChanges,
+      this.controls.company.statusChanges,
+      this.controls.company.valueChanges,
+      this.controls.sector.statusChanges,
+      this.controls.sector.valueChanges
     ).subscribe(() => this.updateErrorMessage());
 
     this.destroyRef.onDestroy(() => {
@@ -155,13 +159,11 @@ export class ClientFormComponent implements OnInit {
       this.emailErrorMessage.set('');
     }
 
-    // if (this.controls.phone.hasError('required')) {
-    //   this.phoneErrorMessage.set('Phone number is required');
-    // } else if (this.controls.phone.hasError('minlength')) {
-    //   this.phoneErrorMessage.set('Not a valid email');
-    // }else {
-    //   this.phoneErrorMessage.set('');
-    // }
+    if (this.controls.city.hasError('required')) {
+      this.cityErrorMessage.set('City is required');
+    } else {
+      this.cityErrorMessage.set('');
+    }
 
     if (this.controls.country.hasError('required')) {
       this.countryErrorMessage.set('Country is required');
@@ -175,6 +177,18 @@ export class ClientFormComponent implements OnInit {
       this.postcodeErrorMessage.set('Postcode is not valid (xx-xxx-x)');
     } else {
       this.postcodeErrorMessage.set('');
+    }
+
+    if (this.controls.company.hasError('required')) {
+      this.companyErrorMessage.set('Company is required');
+    } else {
+      this.companyErrorMessage.set('');
+    }
+
+    if (this.controls.sector.hasError('required')) {
+      this.sectorErrorMessage.set('Sector is required');
+    } else {
+      this.sectorErrorMessage.set('');
     }
   }
 

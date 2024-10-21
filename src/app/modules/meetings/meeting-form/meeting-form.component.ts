@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   inject,
   input,
   OnInit,
@@ -12,11 +13,13 @@ import {
   MeetingPopupMode,
   MeetingStatus,
 } from '../../core/models/meeting.model';
-import { map, Observable, startWith } from 'rxjs';
+import { map, merge, Observable, startWith } from 'rxjs';
 import { ClientsService } from '../../core/services/clients.service';
 import { Client } from '../../core/models/client.model';
 import { ClientValidators } from '../../shared/validators/client.validators';
 import { MeetingService } from '../../core/services/meeting.service';
+import { meetingValidator } from '../../shared/validators/meeting-date.validator';
+import { MeeetingDateErrorStateMatcher } from '../../shared/errorStateMatchers/meeting-date.error-state-matcher';
 
 @Component({
   selector: 'app-meeting-form',
@@ -26,6 +29,7 @@ import { MeetingService } from '../../core/services/meeting.service';
 export class MeetingFormComponent implements OnInit {
   private clientService = inject(ClientsService);
   private meetingService = inject(MeetingService);
+  private destroyRef = inject(DestroyRef);
   closeMeetingDialog = output<void>();
   meeting = input.required<Meeting | null>();
   clientId = input.required<string | null>();
@@ -40,6 +44,11 @@ export class MeetingFormComponent implements OnInit {
 
   clients!: Client[];
   filteredClients: Observable<Client[]> | undefined;
+
+  meetinDateErrorStateMatcher = new MeeetingDateErrorStateMatcher();
+  clientErrorMessage = signal('');
+  dateErrorMessage = signal('');
+  timeErrorMessage = signal('');
 
   ngOnInit(): void {
     this.popupMode = this.mode().toString();
@@ -64,12 +73,20 @@ export class MeetingFormComponent implements OnInit {
       this.initForm();
     }
 
-    // const subscription = merge(
-    //   this.meetingForm.controls['client'].statusChanges,
-    //   this.meetingForm.controls['client'].valueChanges,
-    // ).subscribe(() => {}
-    //   // this.updateErrorMessage()
-    // );
+    const subscription = merge(
+      this.meetingForm.statusChanges,
+      this.meetingForm.valueChanges,
+      this.meetingForm.controls['client'].statusChanges,
+      this.meetingForm.controls['client'].valueChanges,
+      this.meetingForm.controls['date'].statusChanges,
+      this.meetingForm.controls['date'].valueChanges,
+      this.meetingForm.controls['time'].statusChanges,
+      this.meetingForm.controls['time'].valueChanges,
+    ).subscribe(() => this.updateErrorMessage());
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 
   onAddMeeting() {
@@ -118,13 +135,33 @@ export class MeetingFormComponent implements OnInit {
 
   toggleEditMode() {
     if (this.editMode()) this.meetingForm.enable();
-    else this.meetingForm
+    else this.meetingForm;
     this.editMode.set(!this.editMode());
   }
 
   getFullname(clientId: string) {
     const client = this.clients.find((client) => client.id === clientId);
     return client ? client.firstname + ' ' + client.lastname : '';
+  }
+
+  updateErrorMessage() {
+    if (this.meetingForm.controls['client'].hasError('required')) {
+      this.clientErrorMessage.set('Client is required');
+    } else {
+      this.clientErrorMessage.set('');
+    }
+
+    if (this.meetingForm.controls['time'].hasError('required')) {
+      this.timeErrorMessage.set('Time is required');
+    } else {
+      this.timeErrorMessage.set('');
+    }
+
+    if (this.meetingForm.hasError('invalidMeetingDate')) {
+      this.dateErrorMessage.set('Date must be today or in the future');
+    } else {
+      this.dateErrorMessage.set('');
+    }
   }
 
   private meetingDateFormatter(): Date {
@@ -149,19 +186,27 @@ export class MeetingFormComponent implements OnInit {
   }
 
   private initForm() {
-    this.meetingForm = new FormGroup({
-      client: new FormControl(''),
-      date: new FormControl(this.editMode() ? this.meeting()!.date : ''),
-      time: new FormControl(
-        this.editMode()
-          ? new Date(this.meeting()!.date).toLocaleTimeString('en-US', {
-              hour: 'numeric',
-              minute: '2-digit',
-              hour12: true,
-            })
-          : '',
-      ),
-    });
+    this.meetingForm = new FormGroup(
+      {
+        client: new FormControl(''),
+        date: new FormControl(this.editMode() ? this.meeting()!.date : '', {
+          validators: [Validators.required],
+        }),
+        time: new FormControl(
+          this.editMode()
+            ? new Date(this.meeting()!.date).toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true,
+              })
+            : '',
+          {
+            validators: [Validators.required],
+          },
+        ),
+      },
+      { validators: [meetingValidator()] },
+    );
 
     if (!this.clientId()) {
       this.meetingForm.controls['client'].setValidators([

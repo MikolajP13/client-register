@@ -1,82 +1,94 @@
 @if (meetingForm) {
-  <form (ngSubmit)="onAddMeeting()" [formGroup]="meetingForm" class="meeting-form">
-    @if (mode() === 'New' && !clientId() && clients) {
-    <mat-form-field class="full-width">
-      <mat-label>Client</mat-label>
-      <input type="text" aria-label="Number" matInput formControlName="client" [matAutocomplete]="auto">
-      <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="getFullname.bind(this)">
-        @for (client of filteredClients | async; track client) {
-        <mat-option [value]="client.id">{{client.firstname}} {{client.lastname}}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
+<form (ngSubmit)="onAddMeeting()" [formGroup]="meetingForm" class="meeting-form">
+  @if (mode() === 'New' && !clientId() && clients) {
+  <mat-form-field class="full-width">
+    <mat-label>Client</mat-label>
+    <input type="text" aria-label="Number" matInput (blur)="updateErrorMessage()" formControlName="client"
+      [matAutocomplete]="auto">
+    <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="getFullname.bind(this)">
+      @for (client of filteredClients | async; track client) {
+      <mat-option [value]="client.id">{{client.firstname}} {{client.lastname}}</mat-option>
+      }
+    </mat-autocomplete>
+    @if (meetingForm.controls['client'].invalid) {
+    <mat-error>{{clientErrorMessage()}}</mat-error>
     }
+  </mat-form-field>
+  }
 
-    <div class="row">
-      <mat-form-field class="col-8">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="date">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+  <div class="row">
+    <mat-form-field class="col-8">
+      <mat-label>Choose a date</mat-label>
+      <input matInput (blur)="updateErrorMessage()" [matDatepicker]="picker" formControlName="date" [errorStateMatcher]="meetinDateErrorStateMatcher">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      @if (meetingForm.invalid) {
+      <mat-error>{{dateErrorMessage()}}</mat-error>
+      }
+    </mat-form-field>
 
-      <mat-form-field class="col-4">
-        <input matInput [ngxMatTimepicker]="timepicker" placeholder="Select time" formControlName="time" readonly>
-        <ngx-mat-timepicker #timepicker [enableKeyboardInput]="true" [cancelBtnTmpl]="cancelBtnTmpl"
-          [confirmBtnTmpl]="confirmBtnTmpl" timepickerClass="cr-time-picker"></ngx-mat-timepicker>
-        <mat-icon matSuffix (click)="timepicker.open()">access_time</mat-icon>
-        <ng-template #cancelBtnTmpl>
-          <button type="button" class="btn btn-secondary d-inline-flex align-items-center">
-            <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
-            Close
-          </button>
-        </ng-template>
-        <ng-template #confirmBtnTmpl>
-          <button type="button" class="btn btn-primary d-inline-flex align-items-center ms-2" [disabled]="false">
-            <mat-icon class="btn-mat-icon align-middle me-2">check</mat-icon>
-            Save
-          </button>
-        </ng-template>
-      </mat-form-field>
-    </div>
-
-    <div class="action-buttons d-flex justify-content-end">
-      @if (editMode()) {
-        <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="emitCloseDialog()">
+    <mat-form-field class="col-4">
+      <input matInput (blur)="updateErrorMessage()" [ngxMatTimepicker]="timepicker" placeholder="Select time"
+        formControlName="time" readonly>
+      <ngx-mat-timepicker #timepicker [enableKeyboardInput]="true" [cancelBtnTmpl]="cancelBtnTmpl"
+        [confirmBtnTmpl]="confirmBtnTmpl" timepickerClass="cr-time-picker"></ngx-mat-timepicker>
+      <mat-icon matSuffix (click)="timepicker.open()">access_time</mat-icon>
+      <ng-template #cancelBtnTmpl>
+        <button type="button" class="btn btn-secondary d-inline-flex align-items-center">
           <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
           Close
         </button>
-        <button type="button" class="btn btn-primary d-inline-flex align-items-center ms-2" (click)="toggleEditMode()">
-          <mat-icon class="btn-mat-icon align-middle me-2">edit_calendar</mat-icon>
-          Edit
-        </button>
-      }
-      @if (!newMode() && !editMode()) {
-        <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="toggleEditMode()">
-          <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
-          Cancel
-        </button>
-        <button type="button" class="btn btn-primary d-inline-flex align-items-center mx-2" (click)="onDelete()">
-          <mat-icon class="btn-mat-icon align-middle me-2">event_busy</mat-icon>
-          Delete
-        </button>
-        <button type="submit" class="btn btn-primary d-inline-flex align-items-center" [disabled]="false">
+      </ng-template>
+      <ng-template #confirmBtnTmpl>
+        <button type="button" class="btn btn-primary d-inline-flex align-items-center ms-2" [disabled]="false">
           <mat-icon class="btn-mat-icon align-middle me-2">check</mat-icon>
           Save
         </button>
+      </ng-template>
+      @if (meetingForm.controls['time'].invalid) {
+      <mat-error>{{this.timeErrorMessage()}}</mat-error>
       }
-      @if (newMode() && !editMode()) {
-        <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="emitCloseDialog()">
-          <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
-          Close
-        </button>
-        <button type="submit" class="btn btn-primary d-inline-flex align-items-center ms-2" [disabled]="false">
-          <mat-icon class="btn-mat-icon align-middle me-2">check</mat-icon>
-          Save
-        </button>
-      }
-    </div>
-  </form>
+    </mat-form-field>
+  </div>
+
+  <div class="action-buttons d-flex justify-content-end">
+    @if (editMode()) {
+    <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="emitCloseDialog()">
+      <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
+      Close
+    </button>
+    <button type="button" class="btn btn-primary d-inline-flex align-items-center ms-2" (click)="toggleEditMode()">
+      <mat-icon class="btn-mat-icon align-middle me-2">edit_calendar</mat-icon>
+      Edit
+    </button>
+    }
+    @if (!newMode() && !editMode()) {
+    <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="toggleEditMode()">
+      <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary d-inline-flex align-items-center mx-2" (click)="onDelete()">
+      <mat-icon class="btn-mat-icon align-middle me-2">event_busy</mat-icon>
+      Delete
+    </button>
+    <button type="submit" class="btn btn-primary d-inline-flex align-items-center" [disabled]="meetingForm.invalid">
+      <mat-icon class="btn-mat-icon align-middle me-2">check</mat-icon>
+      Save
+    </button>
+    }
+    @if (newMode() && !editMode()) {
+    <button type="button" class="btn btn-secondary d-inline-flex align-items-center" (click)="emitCloseDialog()">
+      <mat-icon class="btn-mat-icon align-middle me-2">close</mat-icon>
+      Close
+    </button>
+    <button type="submit" class="btn btn-primary d-inline-flex align-items-center ms-2"
+      [disabled]="meetingForm.invalid">
+      <mat-icon class="btn-mat-icon align-middle me-2">check</mat-icon>
+      Save
+    </button>
+    }
+  </div>
+</form>
 }

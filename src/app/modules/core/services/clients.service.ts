@@ -8,6 +8,7 @@ import {
   GetClientResponse,
 } from '../models/client.model';
 import { filter, map, Observable, pipe, Subject, tap } from 'rxjs';
+import { PaginatedResponse } from '../models/server-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,12 +40,12 @@ export class ClientsService {
   ): Observable<GetClientResponse> {
     let params = new HttpParams()
       .append('_page', pageIndex)
-      .append('_limit', itemsPerPage);
+      .append('_per_page', itemsPerPage);
 
     if (sortColumnName) {
       params = params
         .append('_page', pageIndex)
-        .append('_limit', itemsPerPage)
+        .append('_per_page', itemsPerPage)
         .append('_sort', sortColumnName)
         .append('_order', sortDirection);
     }
@@ -54,16 +55,16 @@ export class ClientsService {
     }
 
     return this.httpClient
-      .get<ClientResponse[]>(`${this.apiUrl}/clients`, {
+      .get<PaginatedResponse<ClientResponse>>(`${this.apiUrl}/clients`, {
         observe: 'response',
         params,
       })
       .pipe(
         map((response) => {
-          if (!response.body) {
+          if (!response.body?.data) {
             return { clients: [], totalCount: 0 };
           }
-          const clients: Client[] = response.body
+          const clients: Client[] = response.body.data
             .filter((client) => client.userId === userId)
             .map(
               ({
@@ -98,9 +99,7 @@ export class ClientsService {
                 ),
             );
 
-          // const totalCount = Number(response.headers.get('X-Total-Count'));
-          const totalCount = clients.length;
-
+          const totalCount = response.body.items;
           return { clients, totalCount };
         }),
       );

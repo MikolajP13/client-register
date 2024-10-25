@@ -44,14 +44,12 @@ export class ClientsService {
 
     if (sortColumnName) {
       params = params
-        .append('_page', pageIndex)
-        .append('_per_page', itemsPerPage)
-        .append('_sort', sortColumnName)
-        .append('_order', sortDirection);
+        .set('_sort', sortDirection === 'desc' ? '-' + sortColumnName : sortColumnName);
     }
 
+    // Note: Filtering using regexp does not work in JSON Server version 1.0.0
     if (value) {
-      params = params.append('firstname_like', value);
+      params = params.set('firstname_like', value);
     }
 
     return this.httpClient
@@ -61,6 +59,7 @@ export class ClientsService {
       })
       .pipe(
         map((response) => {
+          console.log(response.body)
           if (!response.body?.data) {
             return { clients: [], totalCount: 0 };
           }

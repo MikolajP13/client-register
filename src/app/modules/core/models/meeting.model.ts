@@ -1,4 +1,4 @@
-import { Client } from "./client.model";
+import { Client } from './client.model';
 
 export interface MeetingResponse {
   id: string;
@@ -26,6 +26,11 @@ export class MeetingCarousel {
     public date: Date,
     public status: MeetingStatus,
   ) {}
+}
+
+export interface GetMeetingResponse {
+  meetings: MeetingCarousel[];
+  totalCount: number;
 }
 
 export type MeetingNewEdit = Omit<Meeting, 'id'>;

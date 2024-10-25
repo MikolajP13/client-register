@@ -1,10 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { MeetingCarousel, MeetingNewEdit, MeetingResponse } from '../models/meeting.model';
-import { forkJoin, map, mergeMap, Subject, tap } from 'rxjs';
+import {
+  GetMeetingResponse,
+  MeetingCarousel,
+  MeetingNewEdit,
+  MeetingResponse
+} from '../models/meeting.model';
+import { forkJoin, map, mergeMap, Observable, Subject, tap } from 'rxjs';
 import { ClientsService } from './clients.service';
-import { Client } from '../models/client.model';
+import { PaginatedResponse } from '../models/server-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -27,47 +32,89 @@ export class MeetingService {
       );
   }
 
+  getMeetings(
+    userId: string,
+    pageIndex: number,
+    itemsPerPage: number,
+  ): Observable<GetMeetingResponse> {
+    let params = new HttpParams()
+      .append('_page', pageIndex)
+      .append('_per_page', itemsPerPage)
+      .append('_sort', '-date');
+
+    return this.httpClient
+      .get<PaginatedResponse<MeetingResponse>>(`${this.apiUrl}/meetings`, {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          if (!response.body) return { meetings: [], totalCount: 0 };
+          const totalCount = response.body.items;
+          const meetings: MeetingResponse[] = response.body.data
+            .filter((meeting) => meeting.userId === userId);
+          return { meetings, totalCount };
+        }),
+        mergeMap(({ meetings, totalCount }) =>
+          forkJoin(
+            meetings.map((meeting) =>
+              this.clientService
+                .getClient(meeting.clientId)
+                .pipe(map((client) => ({ ...meeting, client }))),
+            ),
+          ).pipe(
+            map((meetingsWithClient) => {
+              return { meetings: meetingsWithClient, totalCount: totalCount };
+            }),
+          ),
+        ),
+      );
+  }
+
   getTodaysMeetingsByUserId(userId: string) {
-    const today = new Date()
-  
-    return this.httpClient.get<MeetingResponse[]>(`${this.apiUrl}/meetings`).pipe(
-      map((response) =>
-        response.filter(
-          (meeting) =>
-            meeting.userId === userId &&
-            this.dateEquals(new Date(meeting.date), today)
-        )
-      ),
-      map((meetings) =>
-        meetings.sort(
-          (d1, d2) => new Date(d1.date).getTime() - new Date(d2.date).getTime()
-        )
-      ),
-      mergeMap((meetings) =>
-        forkJoin(
-          meetings.map((meeting) =>
-            this.clientService.getClient(meeting.clientId).pipe(
-              map((client) => ({
-                ...meeting,
-                client,
-              }))
-            )
-          )
-        )
-      ),
-      map((meetingsWithClients) =>
-        meetingsWithClients.map(
-          (meeting) =>
-            new MeetingCarousel(
-              meeting.id,
-              meeting.userId,
-              meeting.client,
-              meeting.date,
-              meeting.status
-            )
-        )
-      ),
-    );
+    const today = new Date();
+
+    return this.httpClient
+      .get<MeetingResponse[]>(`${this.apiUrl}/meetings`)
+      .pipe(
+        map((response) =>
+          response.filter(
+            (meeting) =>
+              meeting.userId === userId &&
+              this.dateEquals(new Date(meeting.date), today),
+          ),
+        ),
+        map((meetings) =>
+          meetings.sort(
+            (d1, d2) =>
+              new Date(d1.date).getTime() - new Date(d2.date).getTime(),
+          ),
+        ),
+        mergeMap((meetings) =>
+          forkJoin(
+            meetings.map((meeting) =>
+              this.clientService.getClient(meeting.clientId).pipe(
+                map((client) => ({
+                  ...meeting,
+                  client,
+                })),
+              ),
+            ),
+          ),
+        ),
+        map((meetingsWithClients) =>
+          meetingsWithClients.map(
+            (meeting) =>
+              new MeetingCarousel(
+                meeting.id,
+                meeting.userId,
+                meeting.client,
+                meeting.date,
+                meeting.status,
+              ),
+          ),
+        ),
+      );
   }
 
   getMeetingsByClientId(clientId: string) {

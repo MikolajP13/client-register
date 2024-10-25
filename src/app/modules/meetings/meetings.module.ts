@@ -6,10 +6,12 @@ import { MeetingDialogComponent } from './meeting-dialog/meeting-dialog.componen
 import { MeetingFormComponent } from './meeting-form/meeting-form.component';
 import { DatePipe } from '@angular/common';
 import { SharedModule } from "../shared/shared.module";
+import { MeetingTableComponent } from './meeting-table/meeting-table.component';
+import { MeetingsRoutingModule } from './meetings-routing.module';
 
 @NgModule({
-  declarations: [MeetingComponent, MeetingDialogComponent, MeetingFormComponent],
-  imports: [ReactiveFormsModule, MaterialModule, DatePipe, SharedModule],
+  declarations: [MeetingComponent, MeetingDialogComponent, MeetingFormComponent, MeetingTableComponent],
+  imports: [ReactiveFormsModule, MaterialModule, DatePipe, SharedModule, MeetingsRoutingModule],
   exports: [MeetingComponent],
 })
 export class MeetingsModule {}

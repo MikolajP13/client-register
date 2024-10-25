@@ -17,7 +17,13 @@ const routes: Routes = [
     path: 'clients',
     loadChildren: () =>
       import('./modules/clients/clients.module').then((m) => m.ClientsModule),
-    canMatch: [authLoadGuard]
+    canMatch: [authLoadGuard],
+  },
+  {
+    path: 'meetings',
+    loadChildren: () =>
+      import('./modules/meetings/meetings.module').then((m) => m.MeetingsModule),
+      canMatch: [authLoadGuard]
   },
 ];
 
